@@ -21,11 +21,17 @@ func Register(myBroker broker.Broker)  {
 	})
 }
 
-//消息发布事件
+//消息发布
 func Publish(eventName EventType , data string) error {
 	msg :=&broker.Message{
 		Body:[]byte(data),
 	}
 	err :=pubSub.Publish(string(eventName),msg)
 	return err
+}
+
+//订阅消息
+func Subscribe(eventName EventType , handler broker.Handler) (broker.Subscriber,error) {
+	sub, err :=pubSub.Subscribe(string(eventName),handler)
+	return sub,err
 }
