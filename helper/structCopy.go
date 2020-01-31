@@ -1,6 +1,8 @@
 package helper
 
-import "reflect"
+import (
+	"reflect"
+)
 
 func DeepFields(ifaceType reflect.Type) []reflect.StructField {
 	var fields []reflect.StructField
@@ -22,6 +24,7 @@ func StructCopy(DstStructPtr interface{}, SrcStructPtr interface{}) {
 	dstv := reflect.ValueOf(DstStructPtr)
 	srct := reflect.TypeOf(SrcStructPtr)
 	dstt := reflect.TypeOf(DstStructPtr)
+
 	if srct.Kind() != reflect.Ptr || dstt.Kind() != reflect.Ptr ||
 		srct.Elem().Kind() == reflect.Ptr || dstt.Elem().Kind() == reflect.Ptr {
 		panic("Fatal error:type of parameters must be Ptr of value")
@@ -41,10 +44,12 @@ func StructCopy(DstStructPtr interface{}, SrcStructPtr interface{}) {
 		if !dst.IsValid() {
 			continue
 		}
+
 		if src.Type() == dst.Type() && dst.CanSet() {
 			dst.Set(src)
 			continue
 		}
+
 		if src.Kind() == reflect.Ptr && !src.IsNil() && src.Type().Elem() == dst.Type() {
 			dst.Set(src.Elem())
 			continue
@@ -54,6 +59,7 @@ func StructCopy(DstStructPtr interface{}, SrcStructPtr interface{}) {
 			dst.Elem().Set(src)
 			continue
 		}
+
 	}
 	return
 }
