@@ -10,7 +10,7 @@ var onceUser sync.Once
 
 type AccessLimit struct {
 	AccessKey string
-	ClinetIp string
+	ClientIp string
 }
 
 type CurrentUser struct {
