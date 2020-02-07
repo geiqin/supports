@@ -1,15 +1,14 @@
 package token
 
 import (
-	"github.com/geiqin/supports/auth"
-	"github.com/geiqin/supports/config"
 	"github.com/dgrijalva/jwt-go"
-	"log"
+	"github.com/geiqin/supports/auth"
 	"time"
 )
 
 // 定义加盐哈希密码时所用的盐，要保证其生成和保存都足够安全，比如使用 md5 来生成
-var privateUserKey []byte
+//var privateUserKey []byte
+
 
 type UserAble interface {
 	Decode(tokenStr string) (*UserClaims, error)
@@ -27,19 +26,11 @@ type UserClaims struct {
 
 type UserToken struct {}
 
-func init() {
-	keys :=config.GetConfig("user")
-	prKey,ok :=keys["private_key"]
-	if ok == false {
-		log.Fatal("init private user key failed")
-	}
-	privateUserKey =[]byte(prKey.(string))
-}
 
 // 将 JWT 字符串解密为 CustomClaims 对象
 func (srv *UserToken) Decode(tokenStr string) (*UserClaims, error) {
 	t, err := jwt.ParseWithClaims(tokenStr, &UserClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return privateUserKey, nil
+		return userConf.PrivateKey, nil
 	})
 	// 解密转换类型并返回
 	if claims, ok := t.Claims.(*UserClaims); ok && t.Valid {
@@ -57,11 +48,11 @@ func (srv *UserToken) Encode(user *auth.CurrentUser,limit *auth.AccessLimit) (st
 		user,
 		limit,
 		jwt.StandardClaims{
-			Issuer:    "go.micro.srv.uim", // 签发者
+			Issuer:   userConf.Issuer, // 签发者
 			ExpiresAt: expireTime,
 		},
 	}
 
 	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return jwtToken.SignedString(privateUserKey)
+	return jwtToken.SignedString(userConf.PrivateKey)
 }

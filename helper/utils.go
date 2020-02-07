@@ -7,6 +7,14 @@ import (
 	"reflect"
 )
 
+func GetVal(name string ,mps map[string]interface{}) interface{} {
+    v,ok := mps[name]
+	if !ok {
+		return nil
+    }
+    return v
+}
+
 //截取字符串 start 起点下标 end 终点下标(不包括)
 func Substr(str string, start int, end int) (string,error) {
 	rs := []rune(str)
@@ -51,4 +59,32 @@ func ToInt64(value interface{}) (d int64, err error) {
 		err = fmt.Errorf("ToInt64 need numeric not `%T`", value)
 	}
 	return
+}
+
+func DisplaySize(raw float64) string {
+	if raw < 1024 {
+		return fmt.Sprintf("%.2fB", raw)
+	}
+
+	if raw < 1024*1024 {
+		return fmt.Sprintf("%.2fK", raw/1024.0)
+	}
+
+	if raw < 1024*1024*1024 {
+		return fmt.Sprintf("%.2fM", raw/1024.0/1024.0)
+	}
+
+	if raw < 1024*1024*1024*1024 {
+		return fmt.Sprintf("%.2fG", raw/1024.0/1024.0/1024.0)
+	}
+
+	if raw < 1024*1024*1024*1024*1024 {
+		return fmt.Sprintf("%.2fT", raw/1024.0/1024.0/1024.0/1024.0)
+	}
+
+	if raw < 1024*1024*1024*1024*1024*1024 {
+		return fmt.Sprintf("%.2fP", raw/1024.0/1024.0/1024.0/1024.0/1024.0)
+	}
+
+	return "TooLarge"
 }

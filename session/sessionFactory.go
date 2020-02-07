@@ -3,6 +3,7 @@ package session
 import (
 	"fmt"
 	"github.com/geiqin/supports/config"
+	"github.com/geiqin/supports/helper"
 	"log"
 	"sync"
 )
@@ -12,12 +13,15 @@ var onceSession sync.Once
 var globalSessionManager *Manager
 //var globalSession Session
 
-func init()  {
-	log.Println("do session init")
+func Load()  {
 	myConf :=&SessionConfig{}
-	config.ConvertStruct("session",myConf)
-	log.Println(myConf)
-
+	cnf :=config.GetConfig("app","session")
+	if cnf ==nil{
+		log.Println("load session config failed")
+	}
+	helper.MapToStruct(cnf,myConf)
+	log.Println("load session config succeed")
+	MemoryInit()
 	SessionInit(myConf)
 }
 
@@ -30,7 +34,7 @@ func SessionInit(cfg * SessionConfig) {
 		return
 	}
 	go globalSessionManager.GC()
-	fmt.Println("fd")
+	//fmt.Println("session ok")
 }
 
 func SessionStart(sessionId string) *error {

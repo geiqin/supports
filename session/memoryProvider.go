@@ -8,7 +8,7 @@ import (
 
 var pder = &FromMemory{list: list.New()}
 
-func init() {
+func MemoryInit() {
 	pder.sessions = make(map[string]*list.Element, 0)
 	//注册  memory 调用的时候一定有一致
 	Register("memory", pder)

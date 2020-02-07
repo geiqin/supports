@@ -2,33 +2,81 @@ package config
 
 import (
 	"github.com/micro/go-micro/config"
-	"github.com/mitchellh/mapstructure"
+	"io/ioutil"
 	"log"
+	"path"
+	"reflect"
+	"strings"
 )
 
 var conf map[string]interface{}
 
-func init()  {
-	err := config.LoadFile("./config/config.json")
+func Load()  {
+	dname :="configs"
+	files :=LoadConfList(dname)
+	conf =make(map[string]interface{})
+	for k, v := range files {
+		file  :="./"+dname+"/"+v
+		err := config.LoadFile(file)
+		if err !=nil{
+			log.Println("load config name : ",err)
+			log.Println("load configs failed")
+			return
+		}
+		conf[k] = config.Map()
+	}
+	log.Println("load configs succeed")
+}
+
+func GetConfig(name string , keyPaths ...string) map[string]interface{} {
+	var oneMap map[string]interface{}
+	var oneVal interface{}
+	oneOk :=false
+	channel,ok :=conf[name]
+	if !ok {
+		log.Println("error: config name not exits")
+		return nil
+	}
+	oneMap =channel.(map[string]interface{})
+	plen :=len(keyPaths)
+
+	if plen >0 {
+		for i, k :=range keyPaths{
+			oneVal,oneOk =oneMap[k]
+			if !oneOk {
+				return nil
+			}
+			kid:=reflect.TypeOf(oneVal)
+			if kid.Kind().String() !="map"{
+				log.Println("不能取节点为值类型，节点必须集合型, pathkey:",k)
+				return nil
+			}
+			if i < plen{
+				oneMap =oneVal.(map[string]interface{})
+			}
+		}
+		oneMap =oneVal.(map[string]interface{})
+	}
+	return oneMap
+}
+
+func LoadConfList(dirname string) map[string]string {
+	suffix :=".json"
+	fileList :=map[string]string{}
+	files, err := ioutil.ReadDir(dirname)
 	if err != nil {
-		log.Fatal("could not load config file: %s", err.Error())
+		log.Println("not configs :",err)
+		return fileList
 	}
-	conf = config.Map()
-}
 
-func GetConfig(path string) map[string]interface{} {
-	if path !="" {
-		return conf[path].(map[string]interface{})
+	for _, file := range files {
+		fileName :=file.Name()
+		fileSuffix := path.Ext(fileName)
+
+		if fileSuffix ==suffix{
+			filePrefix := strings.TrimSuffix(fileName, fileSuffix)
+			fileList[filePrefix] =fileName
+		}
 	}
-	return conf
-}
-
-
-func ConvertStruct(key string,structModel interface{}) interface{} {
-	cfg :=GetConfig(key)
-	if cfg ==nil {
-		log.Fatal("convert structModel is failed key:",key)
-	}
-	mapstructure.Decode(cfg,structModel)
-	return structModel
+	return fileList
 }

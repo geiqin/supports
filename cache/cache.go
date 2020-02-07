@@ -2,6 +2,7 @@ package cache
 
 import (
 	"github.com/geiqin/supports/config"
+	"github.com/geiqin/supports/helper"
 	"log"
 	"sync"
 	"time"
@@ -31,11 +32,14 @@ type CacheConfig struct {
 	Database int `json:"database"`
 }
 
-func init()  {
-	log.Println("do cache init")
+func Load()  {
 	myConf :=&CacheConfig{}
-	config.ConvertStruct("redis",myConf)
-	log.Println(myConf)
+	c :=config.GetConfig("database","redis","cache")
+	if c ==nil{
+		log.Println("load cache config failed")
+	}
+	helper.MapToStruct(c,myConf)
+	log.Println("load cache config succeed")
 	RedisInit(myConf)
 }
 

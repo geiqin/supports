@@ -1,0 +1,35 @@
+{
+  "default":"srv_cms_content",
+  "connections": {
+    "srv_cms_content": {
+      "host": "120.24.243.92",
+      "port": "3306",
+      "username": "root",
+      "password": "123456",
+      "database": "go_store_00000001",
+      "prefix": "qin_cms_content_"
+    },
+    "srv_cms_media": {
+      "host": "120.24.243.92",
+      "port": "3306",
+      "username": "root",
+      "password": "123456",
+      "database": "go_store_00000001",
+      "prefix": "qin_cms_media_"
+    }
+  },
+  "redis":{
+    "cache": {
+      "host": "120.24.243.92",
+      "port": 6379,
+      "password": "",
+      "database": "1"
+    },
+    "session": {
+      "host": "120.24.243.92",
+      "port": 6379,
+      "password": "",
+      "database": "1"
+    }
+  }
+}

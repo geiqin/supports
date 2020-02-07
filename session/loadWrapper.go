@@ -1,12 +1,11 @@
 package session
 
 import (
-	//"geiqin.srv.uim/lib/auth"
+	"context"
+	"errors"
 	"github.com/micro/go-micro/metadata"
 	"github.com/micro/go-micro/server"
 	"log"
-	"context"
-	"errors"
 )
 
 

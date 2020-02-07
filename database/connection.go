@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 	"github.com/geiqin/supports/config"
+	"github.com/geiqin/supports/helper"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"log"
@@ -22,15 +23,30 @@ type DatabaseConfig struct {
 
 var db *gorm.DB
 
-func init() {
-	log.Println("do database init")
+
+func Load() {
+
 	dbConfig :=&DatabaseConfig{}
-	config.ConvertStruct("mysql",dbConfig)
+	dbcnf :=config.GetConfig("database")
+	conns :=config.GetConfig("database","connections")
+	defkey,ok :=dbcnf["default"]
+	if !ok{
+		log.Println("unset defualt value of database config")
+		return
+	}
+	currDb,ok:=conns[defkey.(string)]
+	if !ok{
+		log.Println("not find defualt database connection")
+		return
+	}
+	helper.MapToStruct(currDb,dbConfig)
 	db = createMysqlDB(dbConfig)
+	log.Println("load database config succeed")
 	if dbConfig.Prefix !="" {
 		setDbPrefix(dbConfig.Prefix)
 	}
 }
+
 
 func GetDatabase() *gorm.DB {
 	if db==nil{

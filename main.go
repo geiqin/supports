@@ -1,8 +1,7 @@
 package main
 
-import "github.com/geiqin/supports/token"
+import "github.com/geiqin/supports/app"
 
 func main() {
-	t :=token.UserToken{}
-	t.Decode("sssss")
+	app.Run("test.srv")
 }
