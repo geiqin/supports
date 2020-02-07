@@ -4,11 +4,11 @@ import (
 	"sync"
 )
 
-var currentStore *CurrentStore
+var currentStore *LoginStore
 var onceStore sync.Once
 
-type CurrentStore struct {
-	Id   int32
+type LoginStore struct {
+	Id   int64
 	Name  string
 	HasLogin bool
 }
@@ -21,11 +21,12 @@ func HasStoreLogin() bool {
 	return currentStore.HasLogin
 }
 
-func GetCurrentStore() *CurrentStore {
+//获得当前登录店铺
+func GetLoginStore() *LoginStore {
 	return currentStore
 }
 
-func InitCurrentStore(initStore *CurrentStore) *CurrentStore {
+func InitLoginStore(initStore *LoginStore) *LoginStore {
 	onceStore.Do(func() {
 		currentStore = initStore
 		currentStore.HasLogin =true

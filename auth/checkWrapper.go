@@ -29,18 +29,18 @@ func CheckWrapper(fn server.HandlerFunc) server.HandlerFunc {
 
 		if storeAccessId != "" {
 			log.Println("check wrapper store session id :",storeAccessId)
-			store :=&CurrentStore{}
+			store :=&LoginStore{}
 			storeStr :=mycache.Get(storeAccessId)
 			helper.JsonDecode(storeStr,store)
-			InitCurrentStore(store)
+			InitLoginStore(store)
 		}
 
 		if userAccessId != ""{
 			log.Println("check wrapper user session id :",userAccessId)
-			user :=&CurrentUser{}
+			user :=&LoginUser{}
 			userStr :=mycache.Get(userAccessId)
 			helper.JsonDecode(userStr,user)
-			InitCurrentUser(user)
+			InitLoginUser(user)
 		}
 
 		err := fn(ctx, req, resp)

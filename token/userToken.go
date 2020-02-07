@@ -12,13 +12,13 @@ import (
 
 type UserAble interface {
 	Decode(tokenStr string) (*UserClaims, error)
-	Encode(user *auth.CurrentUser) (string, error)
+	Encode(user *auth.LoginUser) (string, error)
 }
 
 
 // 自定义的 metadata，在加密后作为 JWT 的第二部分返回给客户端
 type UserClaims struct {
-	User *auth.CurrentUser
+	User *auth.LoginUser
 	Limit *auth.AccessLimit
 	// 使用标准的 payload
 	jwt.StandardClaims
@@ -41,7 +41,7 @@ func (srv *UserToken) Decode(tokenStr string) (*UserClaims, error) {
 }
 
 // 将 User 用户信息加密为 JWT 字符串
-func (srv *UserToken) Encode(user *auth.CurrentUser,limit *auth.AccessLimit) (string, error) {
+func (srv *UserToken) Encode(user *auth.LoginUser,limit *auth.AccessLimit) (string, error) {
 	// 三天后过期
 	expireTime := time.Now().Add(time.Hour * 24 * 3).Unix()
 	claims := UserClaims{

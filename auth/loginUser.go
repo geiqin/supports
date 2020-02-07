@@ -4,7 +4,7 @@ import (
 	"sync"
 )
 
-var currentUser *CurrentUser
+var currentUser *LoginUser
 var onceUser sync.Once
 
 
@@ -13,8 +13,8 @@ type AccessLimit struct {
 	ClientIp string
 }
 
-type CurrentUser struct {
-	Id   int32
+type LoginUser struct {
+	Id   int64
 	Name  string
 	HasLogin bool
 }
@@ -27,14 +27,15 @@ func HasUserLogin() bool {
 	return currentUser.HasLogin
 }
 
-func GetCurrentUser() *CurrentUser {
+//获得当前登录用户
+func GetLoginUser() *LoginUser {
 	onceUser.Do(func() {
-		currentUser = &CurrentUser{}
+		currentUser = &LoginUser{}
 	})
 	return currentUser
 }
 
-func InitCurrentUser(initUser *CurrentUser) *CurrentUser {
+func InitLoginUser(initUser *LoginUser) *LoginUser {
 	onceUser.Do(func() {
 		currentUser = initUser
 		currentUser.HasLogin =true
