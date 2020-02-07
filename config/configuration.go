@@ -11,12 +11,11 @@ import (
 
 var conf map[string]interface{}
 
-func Load()  {
-	dname :="configs"
-	files :=LoadConfList(dname)
+func Load(pathDir string)  {
+	files :=LoadConfList(pathDir)
 	conf =make(map[string]interface{})
 	for k, v := range files {
-		file  :="./"+dname+"/"+v
+		file  := pathDir +"/"+v
 		err := config.LoadFile(file)
 		if err !=nil{
 			log.Println("load config name : ",err)

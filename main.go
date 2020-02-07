@@ -1,7 +1,11 @@
 package main
 
-import "github.com/geiqin/supports/app"
+import (
+	"github.com/geiqin/supports/app"
+)
 
 func main() {
-	app.Run("test.srv")
+
+	app.Run("srv_cms_media")
+
 }

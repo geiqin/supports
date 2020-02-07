@@ -12,25 +12,35 @@ import (
 var appOption *Option
 //var once sync.Once
 
+type ConfigMode string
+const (
+	LocalMode ConfigMode ="local"
+	CloudMode ConfigMode ="cloud"
+)
+
 type Option struct {
 	Flag string
-	Name string
+	//Name string
+	ConfigMode ConfigMode
+	ConfigPath string
 }
 
 func Run(flag string,option ...Option)  {
 	log.Println("app flag ["+flag+"] is running")
-	if option !=nil{
-		appOption  =&option[0]
-		appOption.Flag =flag
-	} else{
-		appOption  =&Option{
-			Flag:flag,
-		}
+
+	opt:=&Option{}
+	if option!=nil{
+		opt =&option[0]
 	}
-	config.Load()
+	opt.Flag=flag
+	if  opt.ConfigMode=="" || opt.ConfigPath==""{
+		opt.ConfigPath="./configs"
+	}
+
+	config.Load(opt.ConfigPath)
 	session.Load()
 	cache.Load()
-	database.Load()
+	database.Load(opt.Flag)
 	token.Load()
 }
 

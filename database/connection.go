@@ -10,7 +10,7 @@ import (
 )
 
 // define our own host type
-type DatabaseConfig struct {
+type DbConfig struct {
 	Driver      string    `json:"drviver"`
 	Host        string    `json:"host"`
 	Port        string    `json:"port"`
@@ -22,24 +22,18 @@ type DatabaseConfig struct {
 }
 
 var db *gorm.DB
+var dbConfigs map[string] DbConfig
 
+func Load(flag string) {
+	dbConfig :=&DbConfig{}
+	connCfg :=config.GetConfig("database","connections",flag)
 
-func Load() {
-
-	dbConfig :=&DatabaseConfig{}
-	dbcnf :=config.GetConfig("database")
-	conns :=config.GetConfig("database","connections")
-	defkey,ok :=dbcnf["default"]
-	if !ok{
-		log.Println("unset defualt value of database config")
+	if connCfg ==nil{
+		log.Println("load database config failed")
 		return
 	}
-	currDb,ok:=conns[defkey.(string)]
-	if !ok{
-		log.Println("not find defualt database connection")
-		return
-	}
-	helper.MapToStruct(currDb,dbConfig)
+
+	helper.MapToStruct(connCfg,dbConfig)
 	db = createMysqlDB(dbConfig)
 	log.Println("load database config succeed")
 	if dbConfig.Prefix !="" {
@@ -64,7 +58,7 @@ func setDbPrefix(prefix string)  {
 	}
 }
 
-func createMysqlDB(cfg *DatabaseConfig) *gorm.DB {
+func createMysqlDB(cfg *DbConfig) *gorm.DB {
 	serverAddr :=cfg.Host+":"+cfg.Port
 	connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=true&loc=Local",cfg.Username, cfg.Password, serverAddr, cfg.Database)
 	db, err := gorm.Open("mysql", connString)
