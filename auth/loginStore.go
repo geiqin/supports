@@ -13,8 +13,8 @@ type LoginStore struct {
 	HasLogin bool
 }
 
-//判断店铺是否登录
-func HasStoreLogin() bool {
+//店铺是否已授权
+func StoreAuthed() bool {
 	if currentStore==nil{
 		return false
 	}
@@ -22,13 +22,19 @@ func HasStoreLogin() bool {
 }
 
 //获得当前登录店铺
-func GetLoginStore() *LoginStore {
+func GetStore() *LoginStore {
 	return currentStore
 }
 
-func InitLoginStore(initStore *LoginStore) *LoginStore {
+//获得当前登录店铺ID
+func GetStoreId() int64 {
+	return currentStore.Id
+}
+
+//店铺授权
+func StoreAuthorization(myStore *LoginStore) *LoginStore {
 	onceStore.Do(func() {
-		currentStore = initStore
+		currentStore = myStore
 		currentStore.HasLogin =true
 	})
 	return currentStore

@@ -22,8 +22,9 @@ func CheckWrapper(fn server.HandlerFunc) server.HandlerFunc {
 			return errors.New("no auth meta-data found in request")
 		}
 
-		storeAccessId:= meta["Access-Store-Id"]
-		userAccessId:= meta["Access-User-Id"]
+		storeAccessId := meta["Access-Store-Id"]
+		userAccessId := meta["Access-User-Id"]
+		customerAccessId := meta["Access-Customer-Id"]
 
 		mycache :=cache.GetCache()
 
@@ -32,7 +33,7 @@ func CheckWrapper(fn server.HandlerFunc) server.HandlerFunc {
 			store :=&LoginStore{}
 			storeStr :=mycache.Get(storeAccessId)
 			helper.JsonDecode(storeStr,store)
-			InitLoginStore(store)
+			StoreAuthorization(store)
 		}
 
 		if userAccessId != ""{
@@ -40,7 +41,15 @@ func CheckWrapper(fn server.HandlerFunc) server.HandlerFunc {
 			user :=&LoginUser{}
 			userStr :=mycache.Get(userAccessId)
 			helper.JsonDecode(userStr,user)
-			InitLoginUser(user)
+			UserAuthorization(user)
+		}
+
+		if customerAccessId != ""{
+			log.Println("check wrapper customer session id :",customerAccessId)
+			customer :=&LoginCustomer{}
+			customerStr :=mycache.Get(customerAccessId)
+			helper.JsonDecode(customerStr,customer)
+			CustomerAuthorization(customer)
 		}
 
 		err := fn(ctx, req, resp)

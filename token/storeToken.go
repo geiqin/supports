@@ -6,10 +6,6 @@ import (
 	"time"
 )
 
-// 定义加盐哈希密码时所用的盐，要保证其生成和保存都足够安全，比如使用 md5 来生成
-//var privateStoreKey []byte
-
-//var tokenConf map[string]interface{}
 
 type StoreAble interface {
 	Decode(tokenStr string) (*StoreClaims, error)

@@ -20,7 +20,7 @@ type LoginUser struct {
 }
 
 //判断用户是否登录
-func HasUserLogin() bool {
+func UserAuthed() bool {
 	if currentUser==nil{
 		return false
 	}
@@ -28,16 +28,22 @@ func HasUserLogin() bool {
 }
 
 //获得当前登录用户
-func GetLoginUser() *LoginUser {
+func GetUser() *LoginUser {
 	onceUser.Do(func() {
 		currentUser = &LoginUser{}
 	})
 	return currentUser
 }
 
-func InitLoginUser(initUser *LoginUser) *LoginUser {
+//获得当前登录用户ID
+func GetUserId() int64 {
+	return currentStore.Id
+}
+
+//用户授权
+func UserAuthorization(authUser *LoginUser) *LoginUser {
 	onceUser.Do(func() {
-		currentUser = initUser
+		currentUser = authUser
 		currentUser.HasLogin =true
 	})
 	return currentUser
