@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+message Id {
+    int64 id = 1;
+}
+
+message IdInt {
+    int32 id = 1;
+}
+
+message Ids {
+    repeated int64 ids = 1;
+}
+
+message Empty {
+}
+
+message Success {
+    string status =1;
+    int32 code = 2;
+    string description = 3;
+}
+
+message Error {
+    string status =1;
+    int32 code = 2;
+    string description = 3;
+}
+
+message Pager {
+    int32 paged = 1;
+    int32 page_size = 2;
+    int32 total = 3;
+}
+
+
+message BaseWhere {
+    int32 paged = 1;
+    int32 page_size = 2;
+    int32 top = 3;
+    //base params
+    int64 id = 4;
+    int64 ids = 5;
+    string keywords = 6;
+    string status =7;
+    int64 area_id=8;
+    int32 type_id=9;
+    int32 cat_id=10;
+    string start_date =11;
+    string end_date =12;
+}
