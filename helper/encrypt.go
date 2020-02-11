@@ -35,9 +35,9 @@ func GeneratePassword(password string) (string,error) {
 }
 
 //密码验证
-func ComparePassword(password string,password2 string) bool {
+func ComparePassword(hashPassword string,password string) bool {
 	// 进行密码验证
-	if err := bcrypt.CompareHashAndPassword([]byte(password), []byte(password2)); err != nil {
+	if err := bcrypt.CompareHashAndPassword([]byte(hashPassword), []byte(password)); err != nil {
 		return false
 	}
 	return true
