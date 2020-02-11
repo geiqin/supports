@@ -1,8 +1,11 @@
 package token
 
 import (
+	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/geiqin/supports/auth"
+	"github.com/geiqin/supports/helper"
+	"log"
 	"time"
 )
 
@@ -22,6 +25,14 @@ type UserClaims struct {
 
 type UserToken struct {}
 
+func (srv *UserToken) CheckConf () error  {
+	if(userConf ==nil){
+		err:=errors.New("未配置授权信息")
+		log.Println(err.Error())
+		return err
+	}
+	return nil
+}
 
 // 将 JWT 字符串解密为 CustomClaims 对象
 func (srv *UserToken) Decode(tokenStr string) (*UserClaims, error) {
@@ -38,7 +49,12 @@ func (srv *UserToken) Decode(tokenStr string) (*UserClaims, error) {
 
 // 将 User 用户信息加密为 JWT 字符串
 func (srv *UserToken) Encode(user *auth.LoginUser,limit *auth.AccessLimit) (string, error) {
-	// 三天后过期
+	err :=srv.CheckConf()
+	if err !=nil{
+		return "",err
+	}
+
+	log.Println("conf:",helper.JsonEncode(userConf))
 	expireTime := time.Now().Add(time.Hour * 24 * 3).Unix()
 	claims := UserClaims{
 		user,

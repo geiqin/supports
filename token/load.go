@@ -29,7 +29,7 @@ func Load() {
 		log.Println("load store token config failed")
 		return
 	}
-	ToConfToken(storeConf,storeConfObj.(map[string]interface{}))
+	storeConf =ToConfToken(storeConf,storeConfObj.(map[string]interface{}))
 	log.Println("load store token config succeed")
 
 	userConfObj,ok :=conf["user"]
@@ -37,7 +37,7 @@ func Load() {
 		log.Println("load user token config failed")
 		return
 	}
-	ToConfToken(userConf,userConfObj.(map[string]interface{}))
+	userConf =ToConfToken(userConf,userConfObj.(map[string]interface{}))
 	log.Println("load user token config succeed")
 
 	customerConfObj,ok :=conf["customer"]
@@ -45,7 +45,7 @@ func Load() {
 		log.Println("load customer token config failed")
 		return
 	}
-	ToConfToken(customerConf,customerConfObj.(map[string]interface{}))
+	customerConf =ToConfToken(customerConf,customerConfObj.(map[string]interface{}))
 	log.Println("load customer token config succeed")
 }
 
