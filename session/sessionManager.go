@@ -18,6 +18,10 @@ type Provider interface {
 	SessionInit(sid string) (Session, error)
 	//根据sid,获取session
 	SessionRead(sid string) (Session, error)
+	//更新Session
+    SessionUpdate(sid string) error
+	//保存Session
+	SessionSave(sid string, value map[string]interface{}) error
 	//销毁session
 	SessionDestroy(sid string) error
 	//回收
@@ -26,9 +30,10 @@ type Provider interface {
 
 //Session操作接口
 type Session interface {
-	Set(key, value interface{}) error
-	Get(key interface{}) interface{}
-	Delete(ket interface{}) error
+	Set(key string, value interface{}) error
+	Get(key string) interface{}
+	Delete(key string) error
+	Save() error
 	SessionID() string
 }
 

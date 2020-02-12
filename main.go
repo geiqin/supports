@@ -32,10 +32,10 @@ func main() {
 
 
 	myCh :=cache.GetCache()
-	myCh.Set("ddd","1211113",0)
-	myCh.Get("ddd")
+	//myCh.Set("ddd","1211113",0)
+	//myCh.Get("ddd")
 
-	log.Println("cache key:",myCh.Get("ddd"))
+	log.Println("cache key:",myCh.Get("storekey"))
 	/*
 
 	//clientIp :=lib.GetIP(ctx)
@@ -56,17 +56,20 @@ func main() {
 	 */
 
 
-	session.Start("ppVYPYbn1rq2H_yK7fUZyuhTC1LKshCH2cr0Jbn_fwo=")
+	session.Start("testabc")
 
 	ss:=session.GetSession()
+	ss.Set("hash","555555555555")
+	ss.Set("key","aaaaaaa")
+	ss.Save()
 
 	//log.Println("session:",ss)
+	log.Println("user key:",ss.Get("key"))
 
 	log.Println("session id:",ss.SessionID())
-	ss.Set("name","zhangshan")
-	ss.Set("sex","man")
-	log.Println("session name:",ss.Get("name"))
-	log.Println("session sex:",ss.Get("sex"))
+	log.Println("user id:",ss.Get("user_id"))
+	log.Println("user name:",ss.Get("user_name"))
+	log.Println("user_mobile:",ss.Get("user_mobile"))
 	//ss.
 	//log.Println("session id:",ss.SessionID())
 }

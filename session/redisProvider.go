@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-var pder = &FromRedis{}
+
 
 
 //session来自内存 实现
@@ -60,7 +60,7 @@ func LoadRedis(cnf *SessionConfig) {
 func (this *FromRedis) SessionInit(sid string) (Session, error) {
 	this.lock.Lock()
 	defer this.lock.Unlock()
-	v := make(map[interface{}]interface{}, 0)
+	v := make(map[string]interface{}, 0)
 	newsess := &SessionStore{sid: sid, LastAccessedTime: time.Now(), value: v}
 	//element := this.list.PushBack(newsess)
 	//this.sessions[sid] = element
@@ -88,7 +88,7 @@ func (this *FromRedis) SessionRead(sid string) (Session, error) {
 
 	if h.Exists(sid).Val() == 1 {
 		var content string
-		v := make(map[interface{}]interface{}, 0)
+		v := make(map[string]interface{}, 0)
 		content = h.Get(sid).Val()
 		err :=json.Unmarshal([]byte(content), &v)
 		sess := &SessionStore{sid: sid, LastAccessedTime: time.Now(), value: v}
@@ -113,9 +113,17 @@ func (this *FromRedis) SessionDestroy(sid string) error {
 func (this *FromRedis) SessionGC(maxLifeTime int64) {
 
 }
+
 func (this *FromRedis) SessionUpdate(sid string) error {
 	var h = this.Driver
 	h.Expire(sid,time.Duration(this.TTL)*time.Second)
 
+	return nil
+}
+
+func (this *FromRedis) SessionSave(sid string, value map[string]interface{}) error {
+	var h = this.Driver
+	val :=helper.JsonEncode(value)
+	h.Set(sid, val, time.Duration(this.TTL)*time.Second)
 	return nil
 }
