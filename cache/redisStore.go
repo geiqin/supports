@@ -17,7 +17,7 @@ func RedisInit(cfg *CacheConfig)   {
 	opts :=&redis.Options{
 		Addr: serverAddr, // Redis地址
 		Password: cfg.Password,  // Redis账号
-		DB:    1,  // Redis库
+		DB:    cfg.Database,  // Redis库
 		PoolSize: 10,  // Redis连接池大小
 		MaxRetries: 3, // 最大重试次数
 		IdleTimeout: 10*time.Second, // 空闲链接超时时间

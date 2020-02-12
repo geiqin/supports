@@ -21,23 +21,27 @@ func Load()  {
 	}
 	helper.MapToStruct(cnf,myConf)
 	log.Println("load session config succeed")
-	MemoryInit()
-	SessionInit(myConf)
+	LoadRedis(myConf)
+	//log.Println("cnf:",cnf)
+	newManager(myConf)
 }
 
 
-func SessionInit(cfg * SessionConfig) {
+func newManager(cfg * SessionConfig) {
 	var err error
 	globalSessionManager, err = NewSessionManager(cfg.Provider, cfg.CookieName, 3600)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	go globalSessionManager.GC()
+	if cfg.Provider=="memory"{
+		go globalSessionManager.GC()
+	}
+
 	//fmt.Println("session ok")
 }
 
-func SessionStart(sessionId string) *error {
+func Start(sessionId string) *error {
 	onceSession.Do(func() {
 		globalSessionId =sessionId
 	})
@@ -51,7 +55,7 @@ func GetSession() (session Session){
 	return session
 }
 
-func SessionDestroy() {
+func Destroy() {
 	globalSessionManager.SessionDestroy(globalSessionId)
 }
 

@@ -28,6 +28,7 @@ func Load(pathDir string)  {
 }
 
 func GetConfig(name string , keyPaths ...string) map[string]interface{} {
+
 	var oneMap map[string]interface{}
 	var oneVal interface{}
 	oneOk :=false
@@ -36,6 +37,7 @@ func GetConfig(name string , keyPaths ...string) map[string]interface{} {
 		log.Println("error: config name not exits")
 		return nil
 	}
+
 	oneMap =channel.(map[string]interface{})
 	plen :=len(keyPaths)
 

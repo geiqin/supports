@@ -1,9 +1,13 @@
 package main
 
 import (
+	"github.com/geiqin/supports/app"
 	"github.com/geiqin/supports/auth"
+	"github.com/geiqin/supports/cache"
 	"github.com/geiqin/supports/helper"
+	"github.com/geiqin/supports/session"
 	"github.com/geiqin/supports/token"
+	log "log"
 )
 
 
@@ -23,8 +27,13 @@ func MakeUserToken(user *auth.LoginUser,clientIp string) (string,error) {
 
 func main() {
 
-	//app.Run("srv_cms_media")
+	app.Run("srv_cms_media")
 
+
+
+	myCh :=cache.GetCache()
+	myCh.Set("ddd","123",0)
+	myCh.Get("ddd")
 	/*
 
 	//clientIp :=lib.GetIP(ctx)
@@ -45,5 +54,17 @@ func main() {
 	 */
 
 
+	session.Start("ppVYPYbn1rq2H_yK7fUZyuhTC1LKshCH2cr0Jbn_fwo=")
 
+	ss:=session.GetSession()
+
+	//log.Println("session:",ss)
+
+	log.Println("session id:",ss.SessionID())
+	ss.Set("name","zhangshan")
+	ss.Set("sex","man")
+	log.Println("session name:",ss.Get("name"))
+	log.Println("session sex:",ss.Get("sex"))
+	//ss.
+	//log.Println("session id:",ss.SessionID())
 }

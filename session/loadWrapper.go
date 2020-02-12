@@ -19,7 +19,7 @@ func LoadWrapper(fn server.HandlerFunc) server.HandlerFunc {
 		// Note this is now uppercase (not entirely sure why this is...)
 		sid := meta["SessionId"]
 
-		SessionStart(sid)
+		Start(sid)
 
 		log.Println("session id:", sid)
 		//ctx =context.WithValue(ctx,"userid",ausr)
