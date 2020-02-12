@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/geiqin/supports/app"
 	"github.com/geiqin/supports/auth"
-	"github.com/geiqin/supports/cache"
 	"github.com/geiqin/supports/helper"
 	"github.com/geiqin/supports/session"
 	"github.com/geiqin/supports/token"
@@ -29,42 +28,21 @@ func main() {
 
 	app.Run("srv_supports")
 
-
-
-	myCh :=cache.GetCache()
+	//myCh :=cache.GetCache()
 	//myCh.Set("ddd","1211113",0)
 	//myCh.Get("ddd")
 
-	log.Println("cache key:",myCh.Get("storekey"))
-	/*
+	//log.Println("cache key:",myCh.Get("storekey"))
 
-	//clientIp :=lib.GetIP(ctx)
-	clientIp :="127.0.0.1:8688"
-	log.Println("client ip:",clientIp)
-
-	token, err :=MakeUserToken(&auth.LoginUser{
-		Id:  3,
-		Name: "aaa",
-	},clientIp)
-
-	//log.Println("token:",token)
-	//log.Println("err:",err)
-	if err ==nil{
-		log.Println("token:",token)
-	}
-
-	 */
-
-
-	session.Start("testabc")
+	session.Start("xZNo_6ulP6xE9aXQ6TWO0n75lAgpi34aqQnUPEDKeTQ=")
 
 	ss:=session.GetSession()
 	ss.Set("hash","555555555555")
-	ss.Set("key","aaaaaaa")
-	ss.Save()
+	//ss.Set("key","aaaaaaa")
+	//ss.Save()
 
 	//log.Println("session:",ss)
-	log.Println("user key:",ss.Get("key"))
+	log.Println("user key:",ss.Get("hash"))
 
 	log.Println("session id:",ss.SessionID())
 	log.Println("user id:",ss.Get("user_id"))

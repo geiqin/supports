@@ -22,7 +22,6 @@ func Load()  {
 	helper.MapToStruct(cnf,myConf)
 	log.Println("load session config succeed")
 	LoadRedis(myConf)
-	//log.Println("cnf:",cnf)
 	newManager(myConf)
 }
 

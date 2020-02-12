@@ -11,9 +11,6 @@ import (
 	"time"
 )
 
-
-
-
 //session来自内存 实现
 type FromRedis struct {
 	Driver *redis.Client
