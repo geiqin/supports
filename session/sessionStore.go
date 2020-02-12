@@ -20,6 +20,12 @@ func (st *SessionStore) Set(key string, value interface{}) error {
 	return nil
 }
 
+//判断KEY是否存在
+func (st *SessionStore) Has(key string) bool {
+	_, ok := st.value[key];
+	return ok
+}
+
 //获取session
 func (st *SessionStore) Get(key string) interface{} {
 	pder.SessionUpdate(st.sid)
