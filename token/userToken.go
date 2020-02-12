@@ -4,7 +4,6 @@ import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/geiqin/supports/auth"
-	"github.com/geiqin/supports/helper"
 	"log"
 	"time"
 )
@@ -53,8 +52,6 @@ func (srv *UserToken) Encode(user *auth.LoginUser,limit *auth.AccessLimit) (stri
 	if err !=nil{
 		return "",err
 	}
-
-	log.Println("conf:",helper.JsonEncode(userConf))
 	expireTime := time.Now().Add(time.Hour * 24 * 3).Unix()
 	claims := UserClaims{
 		user,
