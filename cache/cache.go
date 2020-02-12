@@ -40,7 +40,7 @@ func Load()  {
 	}
 	helper.MapToStruct(c,myConf)
 	log.Println("load cache config succeed")
-	RedisInit(myConf)
+	LoadRedis(myConf)
 }
 
 func GetCache()  Cache {

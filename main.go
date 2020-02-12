@@ -27,13 +27,15 @@ func MakeUserToken(user *auth.LoginUser,clientIp string) (string,error) {
 
 func main() {
 
-	app.Run("srv_cms_media")
+	app.Run("srv_supports")
 
 
 
 	myCh :=cache.GetCache()
-	myCh.Set("ddd","123",0)
+	myCh.Set("ddd","1211113",0)
 	myCh.Get("ddd")
+
+	log.Println("cache key:",myCh.Get("ddd"))
 	/*
 
 	//clientIp :=lib.GetIP(ctx)

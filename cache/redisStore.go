@@ -3,17 +3,17 @@ package cache
 import (
 	"fmt"
 	"github.com/go-redis/redis"
-	"log"
 	"time"
 )
-var redisCli *redis.Client
+
 var redisStore *RedisStore
 
-type RedisStore struct {}
+type RedisStore struct {
+	Driver *redis.Client
+}
 
-func RedisInit(cfg *CacheConfig)   {
+func LoadRedis(cfg *CacheConfig)   {
 	serverAddr :=fmt.Sprintf("%s:%d",cfg.Host,cfg.Port)
-
 	opts :=&redis.Options{
 		Addr: serverAddr, // Redis地址
 		Password: cfg.Password,  // Redis账号
@@ -23,27 +23,20 @@ func RedisInit(cfg *CacheConfig)   {
 		IdleTimeout: 10*time.Second, // 空闲链接超时时间
 	}
 
-	redisCli = redis.NewClient(opts)
-	pong, err := redisCli.Ping().Result()
-
-	if err == redis.Nil {
-		log.Fatal("Redis异常")
-	} else if err != nil {
-		log.Fatal("失败:", err)
-	} else {
-		log.Println("redis init ",pong)
-	}
+	redisCli := redis.NewClient(opts)
+	redisStore =&RedisStore{Driver:redisCli}
 }
 
 func (h *RedisStore) Set(key string, value string,duration time.Duration) error  {
 	if duration > 0{
-		s :=redisCli.Set(key,value,duration)
+		s := h.Driver.Set(key,value,duration)
+		//s :=redisCli.Set(key,value,duration)
 		if s.Err() !=nil{
 			fmt.Println("cache redis set failed :",s.Err())
 			return s.Err()
 		}
 	} else{
-		g :=redisCli.GetSet(key, value)
+		g :=h.Driver.GetSet(key, value)
 		if g.Err() != nil {
 			fmt.Println("cache redis getset failed :",g.Err())
 			return g.Err()
@@ -54,7 +47,7 @@ func (h *RedisStore) Set(key string, value string,duration time.Duration) error 
 }
 
 func (h *RedisStore) Get(key string) string {
-	c :=  redisCli.Get(key)
+	c :=  h.Driver.Get(key)
 	if c.Err() != nil {
 		fmt.Println("redis get failed:", c.Err())
 		return ""
@@ -63,7 +56,7 @@ func (h *RedisStore) Get(key string) string {
 }
 
 func (h *RedisStore) Has(key string) bool  {
-	rs :=redisCli.Exists(key)
+	rs :=h.Driver.Exists(key)
 	if rs.Err() !=nil{
 		return false
 	}
@@ -77,9 +70,9 @@ func (h *RedisStore) Has(key string) bool  {
 func (h *RedisStore) Increment(key string, step ...int64) int64{
 	var rs *redis.IntCmd
 	if len(step)>0 {
-		rs = redisCli.IncrBy(key,step[0])
+		rs = h.Driver.IncrBy(key,step[0])
 	} else{
-		rs = redisCli.Incr(key)
+		rs = h.Driver.Incr(key)
 	}
 	return rs.Val()
 }
@@ -87,9 +80,9 @@ func (h *RedisStore) Increment(key string, step ...int64) int64{
 func (h *RedisStore) Decrement(key string, step ...int64) int64{
 	var rs *redis.IntCmd
 	if len(step)>0 {
-		rs = redisCli.DecrBy(key,step[0])
+		rs = h.Driver.DecrBy(key,step[0])
 	}else{
-		rs = redisCli.Decr(key)
+		rs = h.Driver.Decr(key)
 	}
 	return rs.Val()
 }
@@ -99,18 +92,18 @@ func (h *RedisStore) Remember(key string,age time.Duration,fn func(args ...inter
 }
 
 func (h *RedisStore) Delete(key string)   {
-	redisCli.Del(key)
+	h.Driver.Del(key)
 }
 
 func (h *RedisStore) HashSet(key string, value interface{}, duration time.Duration) error{
 	if duration > 0{
-		s :=redisCli.Set(key,value,duration)
+		s :=h.Driver.Set(key,value,duration)
 		if s.Err() !=nil{
 			fmt.Println("cache redis set failed :",s.Err())
 			return s.Err()
 		}
 	} else{
-		g :=redisCli.GetSet(key, value)
+		g :=h.Driver.GetSet(key, value)
 		if g.Err() != nil {
 			fmt.Println("cache redis getset failed :",g.Err())
 			return g.Err()
@@ -121,7 +114,7 @@ func (h *RedisStore) HashSet(key string, value interface{}, duration time.Durati
 }
 
 func (h *RedisStore) HashGet(key string) interface{}{
-	c :=  redisCli.Get(key)
+	c :=  h.Driver.Get(key)
 	if c.Err() != nil {
 		fmt.Println("redis get failed:", c.Err())
 		return ""

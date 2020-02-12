@@ -19,34 +19,34 @@ type ConfToken struct {
 func Load() {
 	conf :=config.GetConfig("auth","providers")
 	if conf ==nil{
-		log.Println("load token config failed")
+		log.Println("load tokens config failed")
 		return
 	}
-	log.Println("load token config succeed")
+	log.Println("load tokens config succeed")
 
 	storeConfObj,ok :=conf["store"]
 	if !ok{
-		log.Println("load store token config failed")
+		log.Println("load store_token config failed")
 		return
 	}
 	storeConf =ToConfToken(storeConf,storeConfObj.(map[string]interface{}))
-	log.Println("load store token config succeed")
+	log.Println("load store_token config succeed")
 
 	userConfObj,ok :=conf["user"]
 	if !ok{
-		log.Println("load user token config failed")
+		log.Println("load user_token config failed")
 		return
 	}
 	userConf =ToConfToken(userConf,userConfObj.(map[string]interface{}))
-	log.Println("load user token config succeed")
+	log.Println("load user_token config succeed")
 
 	customerConfObj,ok :=conf["customer"]
 	if !ok{
-		log.Println("load customer token config failed")
+		log.Println("load customer_token config failed")
 		return
 	}
 	customerConf =ToConfToken(customerConf,customerConfObj.(map[string]interface{}))
-	log.Println("load customer token config succeed")
+	log.Println("load customer_token config succeed")
 }
 
 
