@@ -1,5 +1,7 @@
 package auth
 
+import "github.com/geiqin/supports/session"
+
 var currentUser *LoginUser
 //var onceUser sync.Once
 
@@ -33,8 +35,10 @@ func GetUser() *LoginUser {
 
 //获得当前登录用户ID
 func GetUserId() int64 {
-	if currentUser !=nil{
-		return currentUser.Id
+	sess :=session.GetSession()
+	val :=sess.Get("user_id")
+	if val !=""{
+		return val.(int64)
 	}
 	return 0
 }
