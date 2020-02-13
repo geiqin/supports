@@ -3,6 +3,7 @@ package auth
 import (
 	"github.com/geiqin/supports/helper"
 	"github.com/geiqin/supports/session"
+	"log"
 )
 
 var currentUser *LoginUser
@@ -39,10 +40,10 @@ func GetUser() *LoginUser {
 //获得当前登录用户ID
 func GetUserId() int64 {
 	sess :=session.GetSession()
-	val,err :=helper.ToInt64(sess.Get("user_id"))
-	if err !=nil{
-		return 0
-	}
+	vals :=sess.Get("user_id")
+	log.Println("auth_getuserid:",vals)
+	val :=helper.StringToInt64(vals.(string))
+	 
 	return val
 }
 
