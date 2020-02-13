@@ -1,7 +1,12 @@
 package auth
 
+import (
+	"log"
+	"sync"
+)
+
 var currentUser *LoginUser
-//var onceUser sync.Once
+var onceUser sync.Once
 
 
 type AccessLimit struct {
@@ -41,9 +46,10 @@ func GetUserId() int64 {
 
 //用户授权
 func UserAuthorization(authUser *LoginUser) *LoginUser {
-	//onceUser.Do(func() {
-	currentUser = authUser
-	currentUser.HasLogin =true
-	//})
+	onceUser.Do(func() {
+		log.Println("UserAuthorization onceUser")
+		currentUser = authUser
+		currentUser.HasLogin =true
+	})
 	return currentUser
 }
