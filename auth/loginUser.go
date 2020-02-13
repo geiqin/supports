@@ -7,13 +7,6 @@ import (
 var currentUser *LoginUser
 var onceUser sync.Once
 
-//用户类型
-type UserType string
-
-const (
-	User UserType = "user"
-	Customer UserType ="customer"
-)
 
 type AccessLimit struct {
 	AccessKey string
@@ -22,7 +15,7 @@ type AccessLimit struct {
 
 type LoginUser struct {
 	Id   int64
-	Type  UserType
+	Type  string
 	HasLogin bool
 }
 
