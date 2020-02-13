@@ -40,13 +40,6 @@ func Load() {
 	userConf =ToConfToken(userConf,userConfObj.(map[string]interface{}))
 	log.Println("load user_token config succeed")
 
-	customerConfObj,ok :=conf["customer"]
-	if !ok{
-		log.Println("load customer_token config failed")
-		return
-	}
-	customerConf =ToConfToken(customerConf,customerConfObj.(map[string]interface{}))
-	log.Println("load customer_token config succeed")
 }
 
 
