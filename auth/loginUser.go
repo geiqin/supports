@@ -1,6 +1,9 @@
 package auth
 
-import "github.com/geiqin/supports/session"
+import (
+	"github.com/geiqin/supports/helper"
+	"github.com/geiqin/supports/session"
+)
 
 var currentUser *LoginUser
 //var onceUser sync.Once
@@ -36,11 +39,11 @@ func GetUser() *LoginUser {
 //获得当前登录用户ID
 func GetUserId() int64 {
 	sess :=session.GetSession()
-	val :=sess.Get("user_id")
-	if val !=""{
-		return val.(int64)
+	val,err :=helper.ToInt64(sess.Get("user_id"))
+	if err !=nil{
+		return 0
 	}
-	return 0
+	return val
 }
 
 //用户授权

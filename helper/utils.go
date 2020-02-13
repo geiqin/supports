@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/mitchellh/mapstructure"
 	"reflect"
+	"strconv"
 )
 
 func GetVal(name string ,mps map[string]interface{}) interface{} {
@@ -45,7 +46,27 @@ func InArray(s [] string, e string) bool {
 	}
 	return false
 }
+//string到int64
+func StringToInt(val string) int {
+	// string到int
+	ret, _ := strconv.Atoi(val)
+	return ret
+}
 
+func StringToInt64(val string) int64 {
+	ret, _ := strconv.ParseInt(val, 10, 64)
+	return ret
+}
+func IntToString(val int) string {
+	// int到string
+	ret := strconv.Itoa(val)
+	return ret
+}
+func Int64ToString(val int64) string {
+	// int64到string
+	ret := strconv.FormatInt(val,10)
+	return ret
+}
 
 //把任意数字类型转换为int64
 func ToInt64(value interface{}) (d int64, err error) {
