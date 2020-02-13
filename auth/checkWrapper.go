@@ -24,7 +24,6 @@ func CheckWrapper(fn server.HandlerFunc) server.HandlerFunc {
 
 		storeAccessId := meta["Access-Store-Id"]
 		userAccessId := meta["Access-User-Id"]
-		customerAccessId := meta["Access-Customer-Id"]
 
 		mycache :=cache.GetCache()
 
@@ -44,13 +43,6 @@ func CheckWrapper(fn server.HandlerFunc) server.HandlerFunc {
 			UserAuthorization(user)
 		}
 
-		if customerAccessId != ""{
-			log.Println("check wrapper customer session id :",customerAccessId)
-			customer :=&LoginCustomer{}
-			customerStr :=mycache.Get(customerAccessId)
-			helper.JsonDecode(customerStr,customer)
-			CustomerAuthorization(customer)
-		}
 
 		err := fn(ctx, req, resp)
 		return err
