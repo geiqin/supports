@@ -1,5 +1,10 @@
 package auth
 
+import (
+	"github.com/geiqin/supports/helper"
+	"github.com/geiqin/supports/session"
+)
+
 var currentStore *LoginStore
 //var onceStore sync.Once
 
@@ -24,10 +29,16 @@ func GetStore() *LoginStore {
 
 //获得当前登录店铺ID
 func GetStoreId() int64 {
+	sess :=session.GetSession()
+	vals :=sess.Get("store_id")
+	val :=helper.StringToInt64(vals.(string))
+	return val
+	/*
 	if currentStore !=nil{
 		return currentStore.Id
 	}
 	return 0
+	 */
 }
 
 //店铺授权
