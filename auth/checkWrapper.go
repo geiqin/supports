@@ -3,8 +3,8 @@ package auth
 import (
 	"context"
 	"errors"
-	"github.com/geiqin/supports/cache"
-	"github.com/geiqin/supports/helper"
+	//"github.com/geiqin/supports/cache"
+	//"github.com/geiqin/supports/helper"
 	"github.com/micro/go-micro/metadata"
 	"github.com/micro/go-micro/server"
 	"log"
@@ -22,9 +22,14 @@ func CheckWrapper(fn server.HandlerFunc) server.HandlerFunc {
 			return errors.New("no auth meta-data found in request")
 		}
 
-		storeAccessId := meta["Access-Store-Id"]
-		userAccessId := meta["Access-User-Id"]
+		storeClaim := meta["User-Claim"]
+		userClaim := meta["Store-Claim"]
+		log.Println("userclaim:",userClaim)
+		log.Println("storeclaim:",storeClaim)
 
+		return nil
+		//return
+		/*
 		mycache :=cache.GetCache()
 
 		if storeAccessId != "" {
@@ -46,5 +51,6 @@ func CheckWrapper(fn server.HandlerFunc) server.HandlerFunc {
 
 		err := fn(ctx, req, resp)
 		return err
+		 */
 	}
 }
