@@ -1,11 +1,7 @@
 package auth
 
-import (
-	"sync"
-)
-
 var currentUser *LoginUser
-var onceUser sync.Once
+//var onceUser sync.Once
 
 
 type AccessLimit struct {
@@ -29,9 +25,9 @@ func UserAuthed() bool {
 
 //获得当前登录用户
 func GetUser() *LoginUser {
-	onceUser.Do(func() {
+	if currentUser ==nil{
 		currentUser = &LoginUser{}
-	})
+	}
 	return currentUser
 }
 
@@ -45,9 +41,9 @@ func GetUserId() int64 {
 
 //用户授权
 func UserAuthorization(authUser *LoginUser) *LoginUser {
-	onceUser.Do(func() {
-		currentUser = authUser
-		currentUser.HasLogin =true
-	})
+	//onceUser.Do(func() {
+	currentUser = authUser
+	currentUser.HasLogin =true
+	//})
 	return currentUser
 }

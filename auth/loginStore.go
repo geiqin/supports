@@ -1,11 +1,7 @@
 package auth
 
-import (
-	"sync"
-)
-
 var currentStore *LoginStore
-var onceStore sync.Once
+//var onceStore sync.Once
 
 type LoginStore struct {
 	Id   int64
