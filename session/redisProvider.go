@@ -112,9 +112,8 @@ func (this *FromRedis) SessionGC(maxLifeTime int64) {
 }
 
 func (this *FromRedis) SessionUpdate(sid string) error {
-	var h = this.Driver
-	h.Expire(sid,time.Duration(this.TTL)*time.Second)
-
+	//var h = this.Driver
+	//h.Expire(sid,time.Duration(this.TTL)*time.Second)
 	return nil
 }
 
