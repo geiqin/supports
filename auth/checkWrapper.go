@@ -31,7 +31,8 @@ func CheckWrapper(fn server.HandlerFunc) server.HandlerFunc {
 		if userClaimVal !=""{
 			userClaim :=&UserClaims{}
 			err:=json.Unmarshal([]byte(userClaimVal),userClaim)
-			if err!=nil{
+			if err ==nil{
+				log.Println("user authorization is ok")
 				UserAuthorization(userClaim.User)
 			}
 		}
@@ -40,7 +41,8 @@ func CheckWrapper(fn server.HandlerFunc) server.HandlerFunc {
 		if storeClaimVal !=""{
 			storeClaim :=&StoreClaims{}
 			err:=json.Unmarshal([]byte(storeClaimVal),storeClaim)
-			if err!=nil{
+			if err==nil{
+				log.Println("store authorization is ok")
 				StoreAuthorization(storeClaim.Store)
 			}
 		}
