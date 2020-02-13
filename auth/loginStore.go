@@ -28,14 +28,17 @@ func GetStore() *LoginStore {
 
 //获得当前登录店铺ID
 func GetStoreId() int64 {
-	return currentStore.Id
+	if currentStore !=nil{
+		return currentStore.Id
+	}
+	return 0
 }
 
 //店铺授权
 func StoreAuthorization(myStore *LoginStore) *LoginStore {
-	onceStore.Do(func() {
-		currentStore = myStore
-		currentStore.HasLogin =true
-	})
+	//onceStore.Do(func() {
+	currentStore = myStore
+	currentStore.HasLogin =true
+	//})
 	return currentStore
 }

@@ -37,7 +37,10 @@ func GetUser() *LoginUser {
 
 //获得当前登录用户ID
 func GetUserId() int64 {
-	return currentStore.Id
+	if currentUser !=nil{
+		return currentUser.Id
+	}
+	return 0
 }
 
 //用户授权
