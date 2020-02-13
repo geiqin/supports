@@ -1,11 +1,11 @@
 package app
 
 import (
+	"github.com/geiqin/supports/auth"
 	"github.com/geiqin/supports/cache"
 	"github.com/geiqin/supports/config"
 	"github.com/geiqin/supports/database"
 	"github.com/geiqin/supports/session"
-	"github.com/geiqin/supports/token"
 	"log"
 )
 
@@ -41,7 +41,7 @@ func Run(flag string,option ...Option)  {
 	session.Load()
 	cache.Load()
 	database.Load(opt.Flag)
-	token.Load()
+	auth.Load()
 }
 
 func Flag() string {

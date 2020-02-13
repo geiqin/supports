@@ -1,21 +1,20 @@
-package token
+package auth
 
 import (
 	"github.com/dgrijalva/jwt-go"
-	"github.com/geiqin/supports/auth"
 	"time"
 )
 
 
 type StoreAble interface {
 	Decode(tokenStr string) (*StoreClaims, error)
-	Encode(user *auth.LoginStore) (string, error)
+	Encode(user *LoginStore) (string, error)
 }
 
 // 自定义的 metadata，在加密后作为 JWT 的第二部分返回给客户端
 type StoreClaims struct {
-	Store *auth.LoginStore
-	Limit *auth.AccessLimit
+	Store *LoginStore
+	Limit *AccessLimit
 	// 使用标准的 payload
 	jwt.StandardClaims
 }
@@ -38,7 +37,7 @@ func (srv *StoreToken) Decode(tokenStr string) (*StoreClaims, error) {
 }
 
 // 将 User 用户信息加密为 JWT 字符串
-func (srv *StoreToken) Encode(store *auth.LoginStore,limit *auth.AccessLimit) (string, error) {
+func (srv *StoreToken) Encode(store *LoginStore,limit *AccessLimit) (string, error) {
 	// 三天后过期
 	expireTime := time.Now().Add(time.Hour * 24*3).Unix()
 	claims := StoreClaims{

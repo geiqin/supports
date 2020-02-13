@@ -4,11 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"github.com/geiqin/supports/helper"
-	"github.com/geiqin/supports/token"
-
-	//"github.com/geiqin/supports/cache"
-	//"github.com/geiqin/supports/helper"
 	"github.com/micro/go-micro/metadata"
 	"github.com/micro/go-micro/server"
 	"log"
@@ -34,7 +29,7 @@ func CheckWrapper(fn server.HandlerFunc) server.HandlerFunc {
 
 		//用户授权
 		if userClaimVal !=""{
-			userClaim :=&token.UserClaims{}
+			userClaim :=&UserClaims{}
 			err:=json.Unmarshal([]byte(userClaimVal),userClaim)
 			if err!=nil{
 				UserAuthorization(userClaim.User)
@@ -43,7 +38,7 @@ func CheckWrapper(fn server.HandlerFunc) server.HandlerFunc {
 
 		//店铺授权
 		if storeClaimVal !=""{
-			storeClaim :=&token.StoreClaims{}
+			storeClaim :=&StoreClaims{}
 			err:=json.Unmarshal([]byte(storeClaimVal),storeClaim)
 			if err!=nil{
 				StoreAuthorization(storeClaim.Store)

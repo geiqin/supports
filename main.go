@@ -5,7 +5,6 @@ import (
 	"github.com/geiqin/supports/auth"
 	"github.com/geiqin/supports/helper"
 	"github.com/geiqin/supports/session"
-	"github.com/geiqin/supports/token"
 	log "log"
 )
 
@@ -13,7 +12,7 @@ import (
 //生成用户Token
 func MakeUserToken(user *auth.LoginUser,clientIp string) (string,error) {
 	accKey :=helper.UniqueId()
-	token :=token.UserToken{}
+	token := auth.UserToken{}
 	t, err :=token.Encode(user,&auth.AccessLimit{
 		AccessKey: accKey,
 		ClientIp:  clientIp,

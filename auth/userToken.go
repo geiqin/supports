@@ -1,23 +1,22 @@
-package token
+package auth
 
 import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/geiqin/supports/auth"
 	"log"
 	"time"
 )
 
 type UserAble interface {
 	Decode(tokenStr string) (*UserClaims, error)
-	Encode(user *auth.LoginUser) (string, error)
+	Encode(user *LoginUser) (string, error)
 }
 
 
 // 自定义的 metadata，在加密后作为 JWT 的第二部分返回给客户端
 type UserClaims struct {
-	User *auth.LoginUser
-	Limit *auth.AccessLimit
+	User *LoginUser
+	Limit *AccessLimit
 	// 使用标准的 payload
 	jwt.StandardClaims
 }
@@ -47,7 +46,7 @@ func (srv *UserToken) Decode(tokenStr string) (*UserClaims, error) {
 }
 
 // 将 User 用户信息加密为 JWT 字符串
-func (srv *UserToken) Encode(user *auth.LoginUser,limit *auth.AccessLimit) (string, error) {
+func (srv *UserToken) Encode(user *LoginUser,limit *AccessLimit) (string, error) {
 	err :=srv.CheckConf()
 	if err !=nil{
 		return "",err
@@ -57,7 +56,7 @@ func (srv *UserToken) Encode(user *auth.LoginUser,limit *auth.AccessLimit) (stri
 		user,
 		limit,
 		jwt.StandardClaims{
-			Issuer:   userConf.Issuer, // 签发者
+			Issuer:    userConf.Issuer, // 签发者
 			ExpiresAt: expireTime,
 		},
 	}
