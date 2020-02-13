@@ -16,15 +16,12 @@ func LoadWrapper(fn server.HandlerFunc) server.HandlerFunc {
 			return errors.New("no session meta-data found in request")
 		}
 
-		// Note this is now uppercase (not entirely sure why this is...)
-		sid := meta["SessionId"]
-
-		Start(sid)
-
-		log.Println("session id:", sid)
-		//ctx =context.WithValue(ctx,"userid",ausr)
+		log.Println("load session wrapper")
+		sessId :=meta["Session-Id"]
+		if sessId !=""{
+			Start(sessId)
+		}
 		err := fn(ctx, req, resp)
 		return err
-		//return err
 	}
 }
