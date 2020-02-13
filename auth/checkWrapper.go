@@ -2,7 +2,11 @@ package auth
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
+	"github.com/geiqin/supports/helper"
+	"github.com/geiqin/supports/token"
+
 	//"github.com/geiqin/supports/cache"
 	//"github.com/geiqin/supports/helper"
 	"github.com/micro/go-micro/metadata"
@@ -22,35 +26,32 @@ func CheckWrapper(fn server.HandlerFunc) server.HandlerFunc {
 			return errors.New("no auth meta-data found in request")
 		}
 
-		storeClaim := meta["User-Claim"]
-		userClaim := meta["Store-Claim"]
-		log.Println("userclaim:",userClaim)
-		log.Println("storeclaim:",storeClaim)
+		userClaimVal:= meta["User-Claim"]
+		storeClaimVal := meta["Store-Claim"]
 
-		return nil
-		//return
-		/*
-		mycache :=cache.GetCache()
+		log.Println("userclaim:",userClaimVal)
+		log.Println("storeclaim:",storeClaimVal)
 
-		if storeAccessId != "" {
-			log.Println("check wrapper store session id :",storeAccessId)
-			store :=&LoginStore{}
-			storeStr :=mycache.Get(storeAccessId)
-			helper.JsonDecode(storeStr,store)
-			StoreAuthorization(store)
+		//用户授权
+		if userClaimVal !=""{
+			userClaim :=&token.UserClaims{}
+			err:=json.Unmarshal([]byte(userClaimVal),userClaim)
+			if err!=nil{
+				UserAuthorization(userClaim.User)
+			}
 		}
 
-		if userAccessId != ""{
-			log.Println("check wrapper user session id :",userAccessId)
-			user :=&LoginUser{}
-			userStr :=mycache.Get(userAccessId)
-			helper.JsonDecode(userStr,user)
-			UserAuthorization(user)
+		//店铺授权
+		if storeClaimVal !=""{
+			storeClaim :=&token.StoreClaims{}
+			err:=json.Unmarshal([]byte(storeClaimVal),storeClaim)
+			if err!=nil{
+				StoreAuthorization(storeClaim.Store)
+			}
 		}
 
-
+		//继续执行下一步处理
 		err := fn(ctx, req, resp)
 		return err
-		 */
 	}
 }
