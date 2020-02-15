@@ -3,8 +3,8 @@ package session
 import (
 	"context"
 	"errors"
-	"github.com/micro/go-micro/metadata"
-	"github.com/micro/go-micro/server"
+	"github.com/micro/go-micro/v2/metadata"
+	"github.com/micro/go-micro/v2/server"
 	"log"
 )
 

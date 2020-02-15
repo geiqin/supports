@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/micro/go-micro/config"
+	"github.com/micro/go-micro/v2/config"
 	"io/ioutil"
 	"log"
 	"path"
