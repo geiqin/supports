@@ -1,7 +1,7 @@
 package event
 
 import (
-	"github.com/micro/go-micro/v2/broker"
+	"github.com/micro/go-micro/broker"
 	"log"
 	"sync"
 )
