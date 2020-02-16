@@ -9,6 +9,7 @@ import (
 var pubSub broker.Broker
 var once sync.Once
 
+
 type EventType string
 
 //消息注册
