@@ -39,7 +39,7 @@ func (srv *StoreToken) Decode(tokenStr string) (*StoreClaims, error) {
 // 将 User 用户信息加密为 JWT 字符串
 func (srv *StoreToken) Encode(store *LoginStore,limit *AccessLimit) (string, error) {
 	// 三天后过期
-	expireTime := time.Now().Add(time.Hour * 24*3).Unix()
+	expireTime := time.Now().Add(time.Hour * 24 * 30).Unix()
 	claims := StoreClaims{
 		store,
 		limit,

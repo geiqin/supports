@@ -51,7 +51,7 @@ func (srv *UserToken) Encode(user *LoginUser,limit *AccessLimit) (string, error)
 	if err !=nil{
 		return "",err
 	}
-	expireTime := time.Now().Add(time.Hour * 24 * 3).Unix()
+	expireTime := time.Now().Add(time.Hour * 24 * 30).Unix()
 	claims := UserClaims{
 		user,
 		limit,
