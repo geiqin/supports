@@ -1,4 +1,6 @@
 syntax = "proto3";
+//package geiqin.srv.uim;
+
 
 message Id {
     int64 id = 1;
@@ -15,16 +17,15 @@ message Ids {
 message Empty {
 }
 
-message Success {
-    string status =1;
-    int32 code = 2;
-    string description = 3;
+message Info {
+    string content = 1;
+    int32 number = 2;
+    string status =3;
 }
 
 message Error {
-    string status =1;
-    int32 code = 2;
-    string description = 3;
+    int32 code = 1;
+    string message = 2;
 }
 
 message Pager {
@@ -48,4 +49,11 @@ message BaseWhere {
     int32 cat_id=10;
     string start_date =11;
     string end_date =12;
+}
+
+//令牌
+message Token {
+    string access_token = 1;
+    bool valid = 2;
+    Error error = 3;
 }
