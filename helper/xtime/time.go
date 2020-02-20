@@ -21,7 +21,7 @@ const (
 )
 
 //时间字符串转换成时间
-func ParseStringToTime(timeStr string, flag int) time.Time {
+func ParseStrToTime(timeStr string, flag int) time.Time {
 	if flag == 1 {
 		t, _ := time.ParseInLocation("2006-01-02 15:04:05", timeStr,time.Local)
 		return t
@@ -90,7 +90,7 @@ func GetAfterTime(timeRange string) time.Time {
   t: datetime 时间，比如：2019-09-17 09:45:42.5962359 +0800 CST m=+0.003989201
   flag: 标识位，决定输出的时间字符串的格式
 */
-func ParseTimeToString(t time.Time, flag int) string {
+func ParseTimeToStr(t time.Time, flag int) string {
 	var timeStr string
 	if flag == 1 {
 		timeStr = t.Format("2006-01-02 15:04:05")
