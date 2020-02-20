@@ -3,8 +3,8 @@ package auth
 import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/geiqin/supports/helper/xtime"
 	"log"
-	"time"
 )
 
 type UserAble interface {
@@ -51,7 +51,7 @@ func (srv *UserToken) Encode(user *LoginUser,limit *AccessLimit) (string, error)
 	if err !=nil{
 		return "",err
 	}
-	expireTime := time.Now().Add(time.Hour * 24 * 30).Unix()
+	expireTime :=xtime.GetAfterDay(userConf.ExpireTime,xtime.DayType).Unix()
 	claims := UserClaims{
 		user,
 		limit,

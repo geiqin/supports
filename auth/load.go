@@ -13,7 +13,7 @@ type ConfToken struct {
 	Issuer string `json:"issuer"`
 	Audience string `json:"audience"`
 	PrivateKey []byte `json:"private_key"`
-	ExpireTime int64 `json:"expire_time"`
+	ExpireTime int `json:"expire_time"`
 }
 
 func Load() {

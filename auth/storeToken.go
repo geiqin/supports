@@ -2,7 +2,7 @@ package auth
 
 import (
 	"github.com/dgrijalva/jwt-go"
-	"time"
+	"github.com/geiqin/supports/helper/xtime"
 )
 
 
@@ -22,7 +22,6 @@ type StoreClaims struct {
 type StoreToken struct {}
 
 
-
 // 将 JWT 字符串解密为 CustomClaims 对象
 func (srv *StoreToken) Decode(tokenStr string) (*StoreClaims, error) {
 	t, err := jwt.ParseWithClaims(tokenStr, &StoreClaims{}, func(token *jwt.Token) (interface{}, error) {
@@ -38,8 +37,7 @@ func (srv *StoreToken) Decode(tokenStr string) (*StoreClaims, error) {
 
 // 将 User 用户信息加密为 JWT 字符串
 func (srv *StoreToken) Encode(store *LoginStore,limit *AccessLimit) (string, error) {
-	// 三天后过期
-	expireTime := time.Now().Add(time.Hour * 24 * 30).Unix()
+	expireTime :=xtime.GetAfterDay(storeConf.ExpireTime,xtime.DayType).Unix()
 	claims := StoreClaims{
 		store,
 		limit,
