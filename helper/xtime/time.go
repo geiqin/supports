@@ -3,6 +3,7 @@ package xtime
 import (
 	"fmt"
 	"github.com/pkg/errors"
+	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -22,25 +23,27 @@ const (
 
 //时间字符串转换成时间
 func ParseStrToTime(timeStr string, flag int) time.Time {
+	var t time.Time
+	var err error
+
 	if flag == 1 {
-		t, _ := time.ParseInLocation("2006-01-02 15:04:05", timeStr,time.Local)
-		return t
+		t, err = time.ParseInLocation("2006-01-02 15:04:05", timeStr,time.Local)
 	} else if flag == 2 {
-		t, _ := time.ParseInLocation("2006-01-02 15:04", timeStr,time.Local)
-		return t
+		t, err =time.ParseInLocation("2006-01-02 15:04", timeStr,time.Local)
 	} else if flag == 3 {
-		t, _ := time.ParseInLocation("2006-01-02", timeStr,time.Local)
-		return t
+		t, err = time.ParseInLocation("2006-01-02", timeStr,time.Local)
 	} else if flag == 4 {
-		t, _ := time.ParseInLocation("2006.01.02 15:04:05", timeStr,time.Local)
-		return t
+		t, err = time.ParseInLocation("2006.01.02 15:04:05", timeStr,time.Local)
 	} else if flag == 5 {
-		t, _ := time.ParseInLocation("2006.01.02 15:04", timeStr,time.Local)
-		return t
+		t, err = time.ParseInLocation("2006.01.02 15:04", timeStr,time.Local)
 	} else {
-		t, _ := time.ParseInLocation("2006.01.02", timeStr,time.Local)
-		return t
+		t, err = time.ParseInLocation("2006.01.02", timeStr,time.Local)
 	}
+	if err !=nil{
+		log.Println("convert [%s] string to time is failed",timeStr)
+		t, _ = time.ParseInLocation("2006-01-02","1000-01-01",time.Local)
+	}
+	return t
 }
 
 /**
