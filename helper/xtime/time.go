@@ -40,7 +40,7 @@ func ParseStrToTime(timeStr string, flag int) time.Time {
 		t, err = time.ParseInLocation("2006.01.02", timeStr,time.Local)
 	}
 	if err !=nil{
-		log.Println("convert [%s] string to time is failed",timeStr)
+		log.Println("convert ["+timeStr+"] string to time is failed")
 		t, _ = time.ParseInLocation("2006-01-02","1000-01-01",time.Local)
 	}
 	return t

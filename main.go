@@ -39,6 +39,9 @@ func main() {
 	ss.Set("hash","555555555555")
 	//ss.Set("key","aaaaaaa")
 	//ss.Save()
+	//va,_ :=xtime.ParseTimeByTimeStr("2019-12-11 12:10:30","d")
+
+	//log.Println("time  :",va)
 
 	//log.Println("session:",ss)
 	log.Println("user key:",ss.Get("hash"))
