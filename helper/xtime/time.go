@@ -222,7 +222,7 @@ func DateFormat(t time.Time, format string) string {
 
 //判断是否为同一天
 func IsSameDate(date1 time.Time, date2 time.Time) bool {
-	if date1.Date()==date2.Date(){
+	if date1.YearDay()==date2.YearDay(){
 		return true
 	}
 	return false
