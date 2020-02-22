@@ -219,3 +219,11 @@ func DateFormat(t time.Time, format string) string {
 	res = strings.Replace(res, "s", t.Format("5"), -1)
 	return res
 }
+
+//判断是否为同一天
+func IsSameDate(date1 time.Time, date2 time.Time) bool {
+	if date1.Date()==date2.Date(){
+		return true
+	}
+	return false
+}
