@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"github.com/geiqin/supports/config"
 	"log"
-	"strconv"
 )
 
 var storeConf *ConfToken
@@ -46,15 +45,8 @@ func Load() {
 
 
 func ToConfToken(to *ConfToken,from map[string]interface{}) *ConfToken{
-	exTime,err :=strconv.Atoi(from["expire_time"].(json.Number).String())
-	if err!=nil{
-		exTime =15
-	}
-	to =&ConfToken{
-		Issuer: from["issuer"].(string),
-		Audience: from["audience"].(string),
-		PrivateKey: []byte(from["private_key"].(json.Number)),
-		ExpireTime: exTime,
-	}
+	to =&ConfToken{}
+	j, _ := json.Marshal(from)
+	json.Unmarshal(j, &to)
 	return to
 }
