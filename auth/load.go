@@ -44,12 +44,11 @@ func Load() {
 
 
 func ToConfToken(to *ConfToken,from map[string]interface{}) *ConfToken{
-
 	to =&ConfToken{
 		Issuer: from["issuer"].(string),
 		Audience: from["audience"].(string),
 		PrivateKey: []byte(from["private_key"].(string)),
-		//ExpireTime: from["expire_time"].(int64),
+		ExpireTime: from["expire_time"].(int),
 	}
 	return to
 }
