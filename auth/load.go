@@ -3,6 +3,7 @@ package auth
 import (
 	"github.com/geiqin/supports/config"
 	"log"
+	"strconv"
 )
 
 var storeConf *ConfToken
@@ -44,11 +45,15 @@ func Load() {
 
 
 func ToConfToken(to *ConfToken,from map[string]interface{}) *ConfToken{
+	exTime,err :=strconv.Atoi(from["expire_time"].(string))
+	if err!=nil{
+		exTime =15
+	}
 	to =&ConfToken{
 		Issuer: from["issuer"].(string),
 		Audience: from["audience"].(string),
 		PrivateKey: []byte(from["private_key"].(string)),
-		ExpireTime: from["expire_time"].(int),
+		ExpireTime: exTime,
 	}
 	return to
 }
