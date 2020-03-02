@@ -3,9 +3,12 @@ package paginate
 import "github.com/geiqin/supports/helper"
 
 type Paginator struct {
-	Total int32
-	PageSize int32
 	Paged int32
+	Total int32
+	PageCount int32
+	PageSize int32
+	PrevPage int32
+	LastPage int32
 }
 
 func New(paged int32,pageSize ...int32) *Paginator {
@@ -41,6 +44,15 @@ func (a *Paginator) Limit() int32 {
 }
 
 func (a *Paginator) ToPager(pbPager interface{}) *interface{} {
+	a.PageCount  = (a.Total + a.PageSize-1) / a.PageSize
+	a.LastPage =a.Paged+1
+	a.PrevPage =a.Paged-1
+	if a.LastPage >a.PageCount {
+		a.LastPage =a.PageCount
+	}
+	if a.PrevPage <1 {
+		a.PrevPage =1
+	}
 	helper.StructCopy(pbPager,a)
 	return &pbPager
 }
