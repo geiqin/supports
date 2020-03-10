@@ -23,7 +23,17 @@ func MakeUserToken(user *auth.LoginUser,clientIp string) (string,error) {
 	return t,nil
 }
 
-func main() {
+func main()  {
+	log.Println("code:",helper.GenerateSn())
+	log.Println("code:",helper.GenerateSn("2018"))
+	log.Println("code:",helper.GenerateSn("2018"))
+	log.Println("code:",helper.GenerateSn("2018"))
+	log.Println("code:",helper.GenerateSn("2018"))
+	log.Println("code:",helper.GenerateSn("2018"))
+	log.Println("code:",helper.GenerateSn("2018"))
+}
+
+func main222() {
 
 	app.Run("srv_supports")
 
@@ -45,6 +55,10 @@ func main() {
 
 	//log.Println("session:",ss)
 	log.Println("user key:",ss.Get("hash"))
+
+
+	log.Println("session id:",ss.SessionID())
+
 
 	log.Println("session id:",ss.SessionID())
 	log.Println("user id:",ss.Get("user_id"))

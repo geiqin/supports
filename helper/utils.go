@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/mitchellh/mapstructure"
+	"github.com/shomali11/util/xhashes"
 	"reflect"
 	"strconv"
 )
@@ -14,6 +15,15 @@ func GetVal(name string ,mps map[string]interface{}) interface{} {
 		return nil
     }
     return v
+}
+
+func GenerateSn(prefix ...string) string  {
+	sn := xhashes.FNV64(UniqueId())
+	snStr :=strconv.FormatUint(sn,10)
+	if prefix !=nil{
+		snStr =prefix[0]+ snStr
+	}
+	return snStr
 }
 
 //截取字符串 start 起点下标 end 终点下标(不包括)
