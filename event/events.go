@@ -17,7 +17,7 @@ func Register(myBroker broker.Broker)  {
 	once.Do(func() {
 		pubSub =myBroker
 		if err := pubSub.Connect(); err != nil {
-			log.Fatal("register broker connect error: %v\n", err)
+			log.Println("register broker connect error: %v\n", err)
 		}
 	})
 }
