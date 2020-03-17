@@ -70,6 +70,9 @@ func CreateMysqlDB(cfg *DbConfig) *gorm.DB {
 	return db
 }
 
-func GetDbCfg()  *DbConfig {
+func GetDbCfg(dbName ...string)  *DbConfig {
+	if dbName  !=nil {
+		dbConfig.Database =dbName[0]
+	}
 	return dbConfig
 }
