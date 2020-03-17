@@ -22,10 +22,11 @@ type DbConfig struct {
 }
 
 var db *gorm.DB
-var dbConfigs map[string] DbConfig
+//var dbConfigs map[string] DbConfig
+var dbConfig *DbConfig
 
 func Load(flag string) {
-	dbConfig :=&DbConfig{}
+	//dbConfig :=&DbConfig{}
 	connCfg :=config.GetConfig("database","connections",flag)
 
 	if connCfg ==nil{
@@ -34,7 +35,7 @@ func Load(flag string) {
 	}
 
 	helper.MapToStruct(connCfg,dbConfig)
-	db = createMysqlDB(dbConfig)
+	db = CreateMysqlDB(dbConfig)
 	log.Println("load database config succeed")
 	if dbConfig.Prefix !="" {
 		setDbPrefix(dbConfig.Prefix)
@@ -44,7 +45,7 @@ func Load(flag string) {
 
 func GetDatabase() *gorm.DB {
 	if db==nil{
-		log.Fatal("not init database , please do InitDatabase function")
+		log.Println("not init database , please do InitDatabase function")
 	}
 	return db
 }
@@ -53,17 +54,22 @@ func GetDatabase() *gorm.DB {
 设置默认表名前缀
  */
 func setDbPrefix(prefix string)  {
+
 	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
 		return prefix + defaultTableName
 	}
 }
 
-func createMysqlDB(cfg *DbConfig) *gorm.DB {
+func CreateMysqlDB(cfg *DbConfig) *gorm.DB {
 	serverAddr :=cfg.Host+":"+cfg.Port
 	connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=true&loc=Local",cfg.Username, cfg.Password, serverAddr, cfg.Database)
 	db, err := gorm.Open("mysql", connString)
 	if err != nil {
-		log.Fatal("Mysql database connection failed")
+		log.Println("mysql database connection failed")
 	}
 	return db
+}
+
+func GetDbCfg()  *DbConfig {
+	return dbConfig
 }
