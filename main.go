@@ -3,8 +3,10 @@ package main
 import (
 	"github.com/geiqin/supports/app"
 	"github.com/geiqin/supports/auth"
+	"github.com/geiqin/supports/database"
 	"github.com/geiqin/supports/helper"
 	"github.com/geiqin/supports/session"
+	"github.com/jinzhu/gorm"
 	log "log"
 )
 
@@ -23,14 +25,19 @@ func MakeUserToken(user *auth.LoginUser,clientIp string) (string,error) {
 	return t,nil
 }
 
-func main()  {
-	log.Println("code:",helper.GenerateSn())
-	log.Println("code:",helper.GenerateSn("2018"))
-	log.Println("code:",helper.GenerateSn("2018"))
-	log.Println("code:",helper.GenerateSn("2018"))
-	log.Println("code:",helper.GenerateSn("2018"))
-	log.Println("code:",helper.GenerateSn("2018"))
-	log.Println("code:",helper.GenerateSn("2018"))
+
+func ConnDB() *gorm.DB {
+	cfg := database.GetDbCfg()
+	return database.CreateMysqlDB(cfg)
+}
+
+
+func main() {
+	log.Println("code:", helper.GenerateSn())
+	log.Println("code:", helper.GenerateSn("2018"))
+	app.Run("srv_dms")
+	db :=ConnDB()
+	log.Println(db)
 }
 
 func main222() {

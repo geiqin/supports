@@ -26,7 +26,7 @@ var db *gorm.DB
 var dbConfig *DbConfig
 
 func Load(flag string) {
-	//dbConfig :=&DbConfig{}
+	dbConfig =&DbConfig{}
 	connCfg :=config.GetConfig("database","connections",flag)
 
 	if connCfg ==nil{
