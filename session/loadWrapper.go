@@ -21,6 +21,9 @@ func LoadWrapper(fn server.HandlerFunc) server.HandlerFunc {
 		if sessId !=""{
 			Start(sessId)
 		}
+
+		ctx =context.WithValue(ctx, "store_id", 5)
+
 		err := fn(ctx, req, resp)
 		return err
 	}
