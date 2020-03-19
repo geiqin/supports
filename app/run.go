@@ -22,12 +22,12 @@ const (
 
 type Option struct {
 	Flag       string
-	Protect    bool
+	Private    bool
 	ConfigMode ConfigMode
 	ConfigPath string
 }
 
-func Run(flag string, protect bool, option ...Option) {
+func Run(flag string, private bool, option ...Option) {
 	log.Println("app flag [" + flag + "] is running")
 
 	opt := &Option{}
@@ -35,7 +35,7 @@ func Run(flag string, protect bool, option ...Option) {
 		opt = &option[0]
 	}
 	opt.Flag = flag
-	opt.Protect = protect
+	opt.Private = private
 	if opt.ConfigMode == "" || opt.ConfigPath == "" {
 		opt.ConfigPath = "./configs"
 	}
@@ -51,8 +51,8 @@ func Flag() string {
 	return appOption.Flag
 }
 
-func Protect() bool {
-	return appOption.Protect
+func Private() bool {
+	return appOption.Private
 }
 
 func GetOption() *Option {
