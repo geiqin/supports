@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"fmt"
 	"github.com/geiqin/supports/helper"
 )
 
@@ -33,4 +34,10 @@ func GetCustomerId(ctx context.Context) int64 {
 		return v
 	}
 	return 0
+}
+
+func GetStoreFlag(id int64) string {
+	flag := fmt.Sprintf("%08d", id)
+	flag = "go_store_" + flag
+	return flag
 }
