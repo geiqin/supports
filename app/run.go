@@ -39,7 +39,7 @@ func Run(flag string, private bool, option ...Option) {
 	if opt.ConfigMode == "" || opt.ConfigPath == "" {
 		opt.ConfigPath = "./configs"
 	}
-
+	appOption = opt
 	config.Load(opt.ConfigPath)
 	session.Load()
 	cache.Load()
