@@ -10,31 +10,34 @@ import (
 )
 
 var appOption *Option
+
 //var once sync.Once
 
 type ConfigMode string
+
 const (
-	LocalMode ConfigMode ="local"
-	CloudMode ConfigMode ="cloud"
+	LocalMode ConfigMode = "local"
+	CloudMode ConfigMode = "cloud"
 )
 
 type Option struct {
-	Flag string
-	//Name string
+	Flag       string
+	Protect    bool
 	ConfigMode ConfigMode
 	ConfigPath string
 }
 
-func Run(flag string,option ...Option)  {
-	log.Println("app flag ["+flag+"] is running")
+func Run(flag string, protect bool, option ...Option) {
+	log.Println("app flag [" + flag + "] is running")
 
-	opt:=&Option{}
-	if option!=nil{
-		opt =&option[0]
+	opt := &Option{}
+	if option != nil {
+		opt = &option[0]
 	}
-	opt.Flag=flag
-	if  opt.ConfigMode=="" || opt.ConfigPath==""{
-		opt.ConfigPath="./configs"
+	opt.Flag = flag
+	opt.Protect = protect
+	if opt.ConfigMode == "" || opt.ConfigPath == "" {
+		opt.ConfigPath = "./configs"
 	}
 
 	config.Load(opt.ConfigPath)
@@ -46,6 +49,10 @@ func Run(flag string,option ...Option)  {
 
 func Flag() string {
 	return appOption.Flag
+}
+
+func Protect() bool {
+	return appOption.Protect
 }
 
 func GetOption() *Option {
