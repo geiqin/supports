@@ -22,6 +22,12 @@ func LoadWrapper(fn server.HandlerFunc) server.HandlerFunc {
 		storeId := meta["Auth-Store-Id"]
 		customerId := meta["Auth-Customer-Id"]
 
+		ctx = metadata.NewContext(ctx, map[string]string{
+			"Auth-User-Id":     userId,
+			"Auth-Store-Id":    storeId,
+			"Auth-Customer-Id": customerId,
+		})
+
 		if userId != "" {
 			ctx = context.WithValue(ctx, "user_id", userId)
 		}
