@@ -3,14 +3,8 @@ package auth
 import (
 	"context"
 	"errors"
-	"github.com/geiqin/supports/helper"
 	"github.com/micro/go-micro/metadata"
-
-	//"github.com/micro/go-micro/metadata"
-
-	//"github.com/micro/go-micro/metadata"
 	"github.com/micro/go-micro/server"
-	"log"
 )
 
 // AuthWrapper 是一个高阶函数，入参是 ”下一步“ 函数，出参是认证函数
