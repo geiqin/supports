@@ -3,8 +3,10 @@ package auth
 import (
 	"context"
 	"errors"
+	"github.com/geiqin/supports/helper"
 	"github.com/micro/go-micro/metadata"
 	"github.com/micro/go-micro/server"
+	"log"
 )
 
 // AuthWrapper 是一个高阶函数，入参是 ”下一步“ 函数，出参是认证函数
@@ -17,6 +19,10 @@ func LoadWrapper(fn server.HandlerFunc) server.HandlerFunc {
 		if !ok {
 			return errors.New("no auth meta-data found in request")
 		}
+
+		log.Println("load auth wrapper")
+		log.Println("ctx_value:", ctx.Value("store_id"))
+		log.Println("ctx_meta:", helper.JsonEncode(meta))
 
 		userId := meta["Auth-User-Id"]
 		storeId := meta["Auth-Store-Id"]
