@@ -19,7 +19,7 @@ type Provider interface {
 	//根据sid,获取session
 	SessionRead(sid string) (Session, error)
 	//更新Session
-    SessionUpdate(sid string) error
+	SessionUpdate(sid string) error
 	//保存Session
 	SessionSave(sid string, value map[string]interface{}) error
 	//销毁session
@@ -28,22 +28,11 @@ type Provider interface {
 	SessionGC(maxLifeTime int64)
 }
 
-//Session操作接口
-type Session interface {
-	Set(key string, value interface{}) error
-	Get(key string) interface{}
-	Delete(key string) error
-	Has(key string) bool
-	Save() error
-	SessionID() string
-}
-
 type SessionConfig struct {
-	Provider string `json:"provider"`
-	CookieName string `json:"cookie_name"`
+	Provider    string `json:"provider"`
+	CookieName  string `json:"cookie_name"`
 	MaxLifeTime int64  `json:"max_life_time"`
 }
-
 
 type Manager struct {
 	cookieName  string
@@ -97,16 +86,16 @@ func (manager *Manager) SessionStart(sessionId string) (session Session) {
 		session, _ = manager.provider.SessionInit(sid)
 
 		/*
-		cookie :=HttpCookie{
-			Name:     manager.cookieName,
-			Value:    url.QueryEscape(sid),
-			Path:     "/",
-			HttpOnly: true,
-			MaxAge:   int(manager.maxLifeTime),
-			Expires:  time.Now().Add(time.Duration(manager.maxLifeTime)),
-		}
+			cookie :=HttpCookie{
+				Name:     manager.cookieName,
+				Value:    url.QueryEscape(sid),
+				Path:     "/",
+				HttpOnly: true,
+				MaxAge:   int(manager.maxLifeTime),
+				Expires:  time.Now().Add(time.Duration(manager.maxLifeTime)),
+			}
 
-		SetCookie(&cookie)
+			SetCookie(&cookie)
 		*/
 		//http.SetCookie(w, &cookie)
 	} else {
@@ -119,7 +108,7 @@ func (manager *Manager) SessionStart(sessionId string) (session Session) {
 //销毁session 同时删除cookie
 func (manager *Manager) SessionDestroy(sessionId string) {
 	//cookie, err := r.Cookie(manager.cookieName)
-	if sessionId  == "" {
+	if sessionId == "" {
 		return
 	} else {
 		manager.lock.Lock()
@@ -127,14 +116,14 @@ func (manager *Manager) SessionDestroy(sessionId string) {
 		//sid, _ := url.QueryUnescape(cookie.Value)
 		manager.provider.SessionDestroy(sessionId)
 		/*
-		expiration := time.Now()
-		cookie := http.Cookie{
-			Name:     manager.cookieName,
-			Path:     "/",
-			HttpOnly: true,
-			Expires:  expiration,
-			MaxAge:   -1}
-		http.SetCookie(w, &cookie)
+			expiration := time.Now()
+			cookie := http.Cookie{
+				Name:     manager.cookieName,
+				Path:     "/",
+				HttpOnly: true,
+				Expires:  expiration,
+				MaxAge:   -1}
+			http.SetCookie(w, &cookie)
 		*/
 	}
 

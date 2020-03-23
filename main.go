@@ -1,12 +1,14 @@
 package main
 
 import (
+	"context"
 	"github.com/geiqin/supports/app"
 	"github.com/geiqin/supports/auth"
 	"github.com/geiqin/supports/database"
 	"github.com/geiqin/supports/helper"
 	"github.com/geiqin/supports/session"
 	"github.com/jinzhu/gorm"
+	"github.com/micro/go-micro/metadata"
 	log "log"
 )
 
@@ -26,12 +28,11 @@ func MakeUserToken(user *auth.LoginUser, clientIp string) (string, error) {
 
 func ConnDB() *gorm.DB {
 	cfg := database.GetDbCfg()
-
-	db := database.DatabasePools(cfg, 10)
-	return database.CreateMysqlDB(cfg)
+	db := database.DbPools(cfg, 10)
+	return db
 }
 
-func main() {
+func main222() {
 	log.Println("code:", helper.GenerateSn())
 	log.Println("code:", helper.GenerateSn("2018"))
 	app.Run("srv_dms", true)
@@ -39,7 +40,13 @@ func main() {
 	log.Println(db)
 }
 
-func main222() {
+func NewContext(headers map[string]string) context.Context {
+	// Set arbitrary headers in context
+	ctx := metadata.NewContext(context.Background(), headers)
+	return ctx
+}
+
+func main() {
 
 	app.Run("srv_supports", true)
 
@@ -49,9 +56,11 @@ func main222() {
 
 	//log.Println("cache key:",myCh.Get("storekey"))
 
-	session.Start("xZNo_6ulP6xE9aXQ6TWO0n75lAgpi34aqQnUPEDKeTQ=")
+	ctx := NewContext(map[string]string{
+		"Session-Id": "xZNo_6ulP6xE9aXQ6TWO0n75lAgpi34aqQnUPEDKeTQ",
+	})
 
-	ss := session.GetSession()
+	ss := session.GetSession(ctx)
 	ss.Set("hash", "555555555555")
 	//ss.Set("key","aaaaaaa")
 	//ss.Save()
