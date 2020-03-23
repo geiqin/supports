@@ -42,6 +42,11 @@ func GetSession(ctx context.Context) (session Session) {
 	return session
 }
 
+func GetSessionById(sessionId string) (session Session) {
+	session = globalSessionManager.SessionStart(sessionId)
+	return session
+}
+
 func Destroy(ctx context.Context) {
 	globalSessionManager.SessionDestroy(GetSessionId(ctx))
 }
