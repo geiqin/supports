@@ -26,20 +26,17 @@ type SessionStore struct {
 //设置
 func (st *SessionStore) Set(key string, value interface{}) error {
 	st.value[key] = value
-	st.LastAccessedTime = time.Now()
 	return nil
 }
 
 //判断KEY是否存在
 func (st *SessionStore) Has(key string) bool {
 	_, ok := st.value[key]
-	st.LastAccessedTime = time.Now()
 	return ok
 }
 
 //获取session
 func (st *SessionStore) Get(key string) interface{} {
-	st.LastAccessedTime = time.Now()
 	if v, ok := st.value[key]; ok {
 		return v
 	} else {
@@ -51,7 +48,6 @@ func (st *SessionStore) Get(key string) interface{} {
 //删除
 func (st *SessionStore) Delete(key string) error {
 	delete(st.value, key)
-	st.LastAccessedTime = time.Now()
 	return nil
 }
 
@@ -61,6 +57,5 @@ func (st *SessionStore) Save() error {
 }
 
 func (st *SessionStore) SessionID() string {
-	st.LastAccessedTime = time.Now()
 	return st.sid
 }

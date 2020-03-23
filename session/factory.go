@@ -38,17 +38,15 @@ func newManager(cfg *SessionConfig) {
 }
 
 func GetSession(ctx context.Context) (session Session) {
-	globalSessionId := getSessionIdFormContext(ctx)
-	session = globalSessionManager.SessionStart(globalSessionId)
+	session = globalSessionManager.SessionStart(GetSessionId(ctx))
 	return session
 }
 
 func Destroy(ctx context.Context) {
-	globalSessionId := getSessionIdFormContext(ctx)
-	globalSessionManager.SessionDestroy(globalSessionId)
+	globalSessionManager.SessionDestroy(GetSessionId(ctx))
 }
 
-func getSessionIdFormContext(ctx context.Context) string {
+func GetSessionId(ctx context.Context) string {
 	meta, ok := metadata.FromContext(ctx)
 	if ok {
 		return meta["Session-Id"]
