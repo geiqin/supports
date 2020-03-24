@@ -63,7 +63,8 @@ func setDbPrefix(prefix string) {
 func CreateMysqlDB(cfg *DbConfig) *gorm.DB {
 	serverAddr := cfg.Host + ":" + cfg.Port
 	//connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4", cfg.Username, cfg.Password, serverAddr, cfg.Database)
-	connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", cfg.Username, cfg.Password, serverAddr, cfg.Database)
+	//parseTime=True&
+	connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&loc=Local", cfg.Username, cfg.Password, serverAddr, cfg.Database)
 	db, err := gorm.Open("mysql", connString)
 	if err != nil {
 		log.Println("mysql database connection failed")
