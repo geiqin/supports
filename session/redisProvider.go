@@ -14,36 +14,35 @@ import (
 //session来自内存 实现
 type FromRedis struct {
 	Driver *redis.Client
-	TTL int64
-	lock     sync.Mutex               //用来锁
+	TTL    int64
+	lock   sync.Mutex //用来锁
 	//sessions map[string]*list.Element //用来存储在内存
 	//list     *list.List               //用来做 gc
 }
 
 type RedisType struct {
-	Host string
-	Port int
+	Host     string
+	Port     int
 	Database int
 }
 
 func LoadRedis(cnf *SessionConfig) {
-
-	redisCfg :=config.GetConfig("database","redis","session")
-
-	if redisCfg ==nil{
+	redisCfg := config.GetConfig("database", "redis", "session")
+	if redisCfg == nil {
 		log.Println("load redis of session config failed")
 		return
 	}
-	rd :=&RedisType{}
-	helper.MapToStruct(redisCfg,rd)
-	server :=fmt.Sprintf("%s:%d",rd.Host,rd.Port)
+	log.Println("load redis of session config succeed")
+	rd := &RedisType{}
+	helper.MapToStruct(redisCfg, rd)
+	server := fmt.Sprintf("%s:%d", rd.Host, rd.Port)
 
 	var client = redis.NewClient(&redis.Options{
-		Addr: server,
-		Password: "", // no password set
-		DB:       rd.Database,                              // use default DB
+		Addr:     server,
+		Password: "",          // no password set
+		DB:       rd.Database, // use default DB
 	})
-	pder =&FromRedis{
+	pder = &FromRedis{
 		Driver: client,
 		TTL:    cnf.MaxLifeTime,
 		//lock:   sync.Mutex,
@@ -52,8 +51,6 @@ func LoadRedis(cnf *SessionConfig) {
 	Register("redis", pder)
 }
 
-
-
 func (this *FromRedis) SessionInit(sid string) (Session, error) {
 	this.lock.Lock()
 	defer this.lock.Unlock()
@@ -61,7 +58,6 @@ func (this *FromRedis) SessionInit(sid string) (Session, error) {
 	newsess := &SessionStore{sid: sid, LastAccessedTime: time.Now(), value: v}
 	//element := this.list.PushBack(newsess)
 	//this.sessions[sid] = element
-
 
 	var h = this.Driver
 	var bytes []byte
@@ -87,9 +83,9 @@ func (this *FromRedis) SessionRead(sid string) (Session, error) {
 		var content string
 		v := make(map[string]interface{}, 0)
 		content = h.Get(sid).Val()
-		err :=json.Unmarshal([]byte(content), &v)
+		err := json.Unmarshal([]byte(content), &v)
 		sess := &SessionStore{sid: sid, LastAccessedTime: time.Now(), value: v}
-		return sess,err
+		return sess, err
 
 	} else {
 		sess, err := this.SessionInit(sid)
@@ -100,7 +96,6 @@ func (this *FromRedis) SessionRead(sid string) (Session, error) {
 }
 
 func (this *FromRedis) SessionDestroy(sid string) error {
-
 	var h = this.Driver
 	h.Del(sid).Val()
 	return nil
@@ -112,14 +107,14 @@ func (this *FromRedis) SessionGC(maxLifeTime int64) {
 }
 
 func (this *FromRedis) SessionUpdate(sid string) error {
-	//var h = this.Driver
-	//h.Expire(sid,time.Duration(this.TTL)*time.Second)
+	var h = this.Driver
+	h.Expire(sid, time.Duration(this.TTL)*time.Second)
 	return nil
 }
 
 func (this *FromRedis) SessionSave(sid string, value map[string]interface{}) error {
 	var h = this.Driver
-	val :=helper.JsonEncode(value)
+	val := helper.JsonEncode(value)
 	h.Set(sid, val, time.Duration(this.TTL)*time.Second)
 	return nil
 }

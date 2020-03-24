@@ -61,13 +61,14 @@ func main() {
 	})
 
 	ss := session.GetSession(ctx)
+	log.Println("hash value:", ss.Get("hash"))
 	ss.Set("hash", "555555555555")
 	//ss.Set("key","aaaaaaa")
 	//ss.Save()
 	//va,_ :=xtime.ParseTimeByTimeStr("2019-12-11 12:10:30","d")
 
 	//log.Println("time  :",va)
-
+	ss.Save()
 	//log.Println("session:",ss)
 	log.Println("user key:", ss.Get("hash"))
 

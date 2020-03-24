@@ -11,40 +11,40 @@ import (
 
 // define our own host type
 type DbConfig struct {
-	Driver      string    `json:"drviver"`
-	Host        string    `json:"host"`
-	Port        string    `json:"port"`
-	Username    string    `json:"username"`
-	Password    string    `json:"password"`
-	Database    string    `json:"database"`
-	Prefix      string    `json:"prefix"`
-	Charset     string    `json:"charset"`
+	Driver   string `json:"drviver"`
+	Host     string `json:"host"`
+	Port     string `json:"port"`
+	Username string `json:"username"`
+	Password string `json:"password"`
+	Database string `json:"database"`
+	Prefix   string `json:"prefix"`
+	Charset  string `json:"charset"`
 }
 
 var db *gorm.DB
+
 //var dbConfigs map[string] DbConfig
 var dbConfig *DbConfig
 
 func Load(flag string) {
-	dbConfig =&DbConfig{}
-	connCfg :=config.GetConfig("database","connections",flag)
+	dbConfig = &DbConfig{}
+	connCfg := config.GetConfig("database", "connections", flag)
 
-	if connCfg ==nil{
+	if connCfg == nil {
 		log.Println("load database config failed")
 		return
 	}
 
-	helper.MapToStruct(connCfg,dbConfig)
+	helper.MapToStruct(connCfg, dbConfig)
 	db = CreateMysqlDB(dbConfig)
 	log.Println("load database config succeed")
-	if dbConfig.Prefix !="" {
+	if dbConfig.Prefix != "" {
 		setDbPrefix(dbConfig.Prefix)
 	}
 }
 
-
 func GetDatabase() *gorm.DB {
-	if db==nil{
+	if db == nil {
 		log.Println("not init database , please do InitDatabase function")
 	}
 	return db
@@ -52,8 +52,8 @@ func GetDatabase() *gorm.DB {
 
 /**
 设置默认表名前缀
- */
-func setDbPrefix(prefix string)  {
+*/
+func setDbPrefix(prefix string) {
 
 	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
 		return prefix + defaultTableName
@@ -61,8 +61,8 @@ func setDbPrefix(prefix string)  {
 }
 
 func CreateMysqlDB(cfg *DbConfig) *gorm.DB {
-	serverAddr :=cfg.Host+":"+cfg.Port
-	connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=true&loc=Local",cfg.Username, cfg.Password, serverAddr, cfg.Database)
+	serverAddr := cfg.Host + ":" + cfg.Port
+	connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local", cfg.Username, cfg.Password, serverAddr, cfg.Database)
 	db, err := gorm.Open("mysql", connString)
 	if err != nil {
 		log.Println("mysql database connection failed")
@@ -70,9 +70,9 @@ func CreateMysqlDB(cfg *DbConfig) *gorm.DB {
 	return db
 }
 
-func GetDbCfg(dbName ...string)  *DbConfig {
-	if dbName  !=nil {
-		dbConfig.Database =dbName[0]
+func GetDbCfg(dbName ...string) *DbConfig {
+	if dbName != nil {
+		dbConfig.Database = dbName[0]
 	}
 	return dbConfig
 }
