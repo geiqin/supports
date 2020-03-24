@@ -53,6 +53,7 @@ func (st *SessionStore) Delete(key string) error {
 
 //保存
 func (st *SessionStore) Save() error {
+	pder.SessionSave(st.sid, st.value)
 	return nil
 }
 
