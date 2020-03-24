@@ -9,25 +9,37 @@ import (
 	"strconv"
 )
 
-func GetVal(name string ,mps map[string]interface{}) interface{} {
-    v,ok := mps[name]
+func GetVal(name string, mps map[string]interface{}) interface{} {
+	v, ok := mps[name]
 	if !ok {
 		return nil
-    }
-    return v
+	}
+	return v
 }
 
-func GenerateSn(prefix ...string) string  {
+func GenerateSn(prefix ...string) string {
 	sn := xhashes.FNV64(UniqueId())
-	snStr :=strconv.FormatUint(sn,10)
-	if prefix !=nil{
-		snStr =prefix[0]+ snStr
+	snStr := strconv.FormatUint(sn, 10)
+	if prefix != nil {
+		snStr = prefix[0] + snStr
 	}
 	return snStr
 }
 
+/*
+//把汉字转换未Pinyin
+func ConvertPinyin(chinese string, mode ...int) string {
+	strArr := pinyin.LazyConvert(chinese, nil)
+	if strArr != nil {
+		return strings.Join(strArr, "")
+	}
+	return ""
+}
+
+
+*/
 //截取字符串 start 起点下标 end 终点下标(不包括)
-func Substr(str string, start int, end int) (string,error) {
+func Substr(str string, start int, end int) (string, error) {
 	rs := []rune(str)
 	length := len(rs)
 
@@ -42,13 +54,13 @@ func Substr(str string, start int, end int) (string,error) {
 }
 
 //Map类型转换为Struct
-func MapToStruct(fromMap interface{},toStruct interface{}) interface{} {
-	mapstructure.Decode(fromMap,toStruct)
+func MapToStruct(fromMap interface{}, toStruct interface{}) interface{} {
+	mapstructure.Decode(fromMap, toStruct)
 	return toStruct
 }
 
 //判断字符是否在数组中
-func InArray(s [] string, e string) bool {
+func InArray(s []string, e string) bool {
 	for _, a := range s {
 		if a == e {
 			return true
@@ -56,6 +68,7 @@ func InArray(s [] string, e string) bool {
 	}
 	return false
 }
+
 //string到int64
 func StringToInt(val string) int {
 	// string到int
@@ -74,7 +87,7 @@ func IntToString(val int) string {
 }
 func Int64ToString(val int64) string {
 	// int64到string
-	ret := strconv.FormatInt(val,10)
+	ret := strconv.FormatInt(val, 10)
 	return ret
 }
 

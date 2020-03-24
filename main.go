@@ -51,6 +51,7 @@ func main() {
 
 	app.Run("srv_supports", true)
 
+	//log.Println("pinyin:", helper.ConvertPinyin("我是中国人"))
 	myCh := cache.GetCache()
 	log.Println("cache value:", myCh.Get("ddd"))
 	myCh.Get("ddd")
