@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/geiqin/supports/app"
 	"github.com/geiqin/supports/auth"
+	"github.com/geiqin/supports/cache"
 	"github.com/geiqin/supports/database"
 	"github.com/geiqin/supports/helper"
 	"github.com/geiqin/supports/session"
@@ -50,9 +51,11 @@ func main() {
 
 	app.Run("srv_supports", true)
 
-	//myCh :=cache.GetCache()
-	//myCh.Set("ddd","1211113",0)
-	//myCh.Get("ddd")
+	myCh := cache.GetCache()
+	log.Println("cache value:", myCh.Get("ddd"))
+	myCh.Get("ddd")
+	myCh.Set("ddd", "1211113", 0)
+	log.Println("cache value2:", myCh.Get("ddd"))
 
 	//log.Println("cache key:",myCh.Get("storekey"))
 
