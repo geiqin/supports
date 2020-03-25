@@ -13,37 +13,37 @@ import (
 type TimeType int
 
 const (
-	YearType TimeType =1
-	MonthType TimeType =2
-	DayType TimeType =3
-	HourType TimeType =4
-	MinuteType TimeType =5
-	SecondType TimeType =6
+	YearType   TimeType = 1
+	MonthType  TimeType = 2
+	DayType    TimeType = 3
+	HourType   TimeType = 4
+	MinuteType TimeType = 5
+	SecondType TimeType = 6
 )
 
 //时间字符串转换成时间
-func ParseStrToTime(timeStr string, flag int) time.Time {
+func ParseStrToTime(timeStr string, flag int) *time.Time {
 	var t time.Time
 	var err error
 
 	if flag == 1 {
-		t, err = time.ParseInLocation("2006-01-02 15:04:05", timeStr,time.Local)
+		t, err = time.ParseInLocation("2006-01-02 15:04:05", timeStr, time.Local)
 	} else if flag == 2 {
-		t, err =time.ParseInLocation("2006-01-02 15:04", timeStr,time.Local)
+		t, err = time.ParseInLocation("2006-01-02 15:04", timeStr, time.Local)
 	} else if flag == 3 {
-		t, err = time.ParseInLocation("2006-01-02", timeStr,time.Local)
+		t, err = time.ParseInLocation("2006-01-02", timeStr, time.Local)
 	} else if flag == 4 {
-		t, err = time.ParseInLocation("2006.01.02 15:04:05", timeStr,time.Local)
+		t, err = time.ParseInLocation("2006.01.02 15:04:05", timeStr, time.Local)
 	} else if flag == 5 {
-		t, err = time.ParseInLocation("2006.01.02 15:04", timeStr,time.Local)
+		t, err = time.ParseInLocation("2006.01.02 15:04", timeStr, time.Local)
 	} else {
-		t, err = time.ParseInLocation("2006.01.02", timeStr,time.Local)
+		t, err = time.ParseInLocation("2006.01.02", timeStr, time.Local)
 	}
-	if err !=nil{
-		log.Println("convert ["+timeStr+"] string to time is failed")
-		t, _ = time.ParseInLocation("2006-01-02","1000-01-01",time.Local)
+	if err != nil {
+		log.Println("convert [" + timeStr + "] string to time is failed")
+		t, _ = time.ParseInLocation("2006-01-02", "1000-01-01", time.Local)
 	}
-	return t
+	return &t
 }
 
 /**
@@ -54,19 +54,19 @@ func ParseStrToTime(timeStr string, flag int) time.Time {
 func GetAfterDay(dayRange int, timeType TimeType) time.Time {
 	now := time.Now()
 	var tmpDay time.Time
-	if timeType ==YearType {
+	if timeType == YearType {
 		tmpDay = now.AddDate(dayRange, 0, 0)
 	} else if timeType == MonthType {
 		tmpDay = now.AddDate(0, dayRange, 0)
 	} else if timeType == DayType {
 		tmpDay = now.AddDate(0, 0, dayRange)
 	} else if timeType == HourType {
-		tmpDay =GetAfterTime(strconv.Itoa(dayRange)+"h")
+		tmpDay = GetAfterTime(strconv.Itoa(dayRange) + "h")
 	} else if timeType == MinuteType {
-		tmpDay =GetAfterTime(strconv.Itoa(dayRange)+"m")
+		tmpDay = GetAfterTime(strconv.Itoa(dayRange) + "m")
 	} else if timeType == SecondType {
-		tmpDay =GetAfterTime(strconv.Itoa(dayRange)+"s")
-	}else {
+		tmpDay = GetAfterTime(strconv.Itoa(dayRange) + "s")
+	} else {
 		tmpDay = now.AddDate(0, 0, dayRange)
 	}
 	return tmpDay
@@ -119,13 +119,11 @@ func ParseTimeToInt64(t time.Time) int64 {
 	return t.Unix()
 }
 
-
 //时间戳转换成年月日
 func ParseTimeToDate(timeStr string) string {
 	dateTime := time.Unix(time.Now().Unix(), 0).Format(timeStr)
 	return dateTime
 }
-
 
 //时间转换 将1993-12-26 10:30:00转换为time
 func ParseTimeByTimeStr(str, errPrefix string) (time.Time, error) {
@@ -141,7 +139,6 @@ func ParseTimeByTimeStr(str, errPrefix string) (time.Time, error) {
 
 	return t, nil
 }
-
 
 //获取最近的周一
 func ParseCurrentMonday(t time.Time) time.Time {
@@ -222,7 +219,7 @@ func DateFormat(t time.Time, format string) string {
 
 //判断是否为同一天
 func IsSameDate(date1 time.Time, date2 time.Time) bool {
-	if date1.YearDay()==date2.YearDay(){
+	if date1.YearDay() == date2.YearDay() {
 		return true
 	}
 	return false
