@@ -10,7 +10,7 @@ type Timestamps struct {
 }
 
 type AllTimestamps struct {
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	CreatedAt *time.Time
+	UpdatedAt *time.Time
 	DeletedAt *time.Time `sql:"index"`
 }
