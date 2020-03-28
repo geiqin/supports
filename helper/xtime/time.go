@@ -22,7 +22,7 @@ const (
 )
 
 //时间字符串转换成时间
-func ParseStrToTime(timeStr string, flag int) *time.Time {
+func ParseStrToTime(timeStr string, flag int) time.Time {
 	var t time.Time
 	var err error
 	if timeStr == "" {
