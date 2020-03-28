@@ -25,9 +25,6 @@ const (
 func ParseStrToTime(timeStr string, flag int) time.Time {
 	var t time.Time
 	var err error
-	if timeStr == "" {
-		return nil
-	}
 	if flag == 1 {
 		t, err = time.ParseInLocation("2006-01-02 15:04:05", timeStr, time.Local)
 	} else if flag == 2 {
@@ -43,9 +40,9 @@ func ParseStrToTime(timeStr string, flag int) time.Time {
 	}
 	if err != nil {
 		log.Println("convert [" + timeStr + "] string to time is failed")
-		return nil
+		t, _ = time.ParseInLocation("2006-01-02", "1000-01-01", time.Local)
 	}
-	return &t
+	return t
 }
 
 /**
