@@ -1,8 +1,16 @@
 package auth
 
-import "context"
+import (
+	"context"
+	"github.com/geiqin/supports/helper"
+)
 
-func StoreContext(storeId string) context.Context {
+func StoreContext(storeId int64) context.Context {
+	ctx := context.WithValue(context.Background(), "store_id", helper.Int64ToString(storeId))
+	return ctx
+}
+
+func StoreContextByString(storeId string) context.Context {
 	ctx := context.WithValue(context.Background(), "store_id", storeId)
 	return ctx
 }
