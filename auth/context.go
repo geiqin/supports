@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/geiqin/supports/helper"
 	"github.com/micro/go-micro/broker"
+	"net/http"
 )
 
 func StoreContext(storeId int64) context.Context {
@@ -28,4 +29,14 @@ func StoreContextByBroker(broker broker.Event) context.Context {
 		}
 	}
 	return context.Background()
+}
+
+//主要提供给 WEB模式下使用
+func StoreContextByHeader(header http.Header) context.Context {
+	storeId := header.Get("Auth-Store-Id")
+	userId := header.Get("Auth-User-Id")
+	ctx := context.Background()
+	ctx = context.WithValue(ctx, "store_id", storeId)
+	ctx = context.WithValue(ctx, "user_id", userId)
+	return ctx
 }
