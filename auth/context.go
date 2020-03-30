@@ -35,8 +35,17 @@ func StoreContextByBroker(broker broker.Event) context.Context {
 func StoreContextByHeader(header http.Header) context.Context {
 	storeId := header.Get("Auth-Store-Id")
 	userId := header.Get("Auth-User-Id")
+	customerId := header.Get("Auth-Customer-Id")
 	ctx := context.Background()
-	ctx = context.WithValue(ctx, "store_id", storeId)
-	ctx = context.WithValue(ctx, "user_id", userId)
+	if storeId != "" {
+		ctx = context.WithValue(ctx, "store_id", storeId)
+	}
+	if userId != "" {
+		ctx = context.WithValue(ctx, "user_id", userId)
+	}
+	if customerId != "" {
+		ctx = context.WithValue(ctx, "customer_id", customerId)
+	}
+
 	return ctx
 }
