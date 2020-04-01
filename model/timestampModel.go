@@ -5,8 +5,8 @@ import (
 )
 
 type Timestamps struct {
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	CreatedAt *time.Time
+	UpdatedAt *time.Time
 }
 
 type AllTimestamps struct {
