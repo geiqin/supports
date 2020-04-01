@@ -319,6 +319,8 @@ github.com/sergi/go-diff v1.0.0/go.mod h1:0CfEIISq7TuYL3j771MWULgwwjU+GofnZX9QAm
 github.com/shomali11/parallelizer v0.0.0-20180607005021-e11813c22f20/go.mod h1:HjzvRHgN5PGptIqjrdutIoZq4uCAemBTm/bGgnNLGiY=
 github.com/shomali11/util v0.0.0-20190608141102-c39c2521a2ab h1:tP21dI9Y/ZiO+4XjR0DZPm3qBbVNbMHqZWqwQ7wsIOY=
 github.com/shomali11/util v0.0.0-20190608141102-c39c2521a2ab/go.mod h1:TXbLnHGmVOJwHMu4JOMZAeTNNaw5ryef9phks/VKmS8=
+github.com/shomali11/util v0.0.0-20200329021417-91c54758c87b h1:vtWV9/bCF2tgRxv1R/tEENMwJaR8bXNhUimLMSUMVXw=
+github.com/shomali11/util v0.0.0-20200329021417-91c54758c87b/go.mod h1:89COV+EXrLrwQBk6nTUtYS5qVvTa2R0UMWSvUpHaX0Y=
 github.com/shurcooL/sanitized_anchor_name v1.0.0/go.mod h1:1NzhyTcUVG4SuEtjjoZeVRXNmyL/1OwPU0+IJeTBvfc=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
 github.com/sirupsen/logrus v1.4.1/go.mod h1:ni0Sbl8bgC9z8RoU9G6nDWqqs/fq4eDPysMBDgk/93Q=
