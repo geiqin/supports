@@ -29,3 +29,10 @@ type DataResponse struct {
 	Error  *Error         `protobuf:"bytes,4,opt,name=error,proto3" json:"error,omitempty"`
 	Info   *Info          `protobuf:"bytes,5,opt,name=info,proto3" json:"info,omitempty"`
 }
+
+func NewError(code int32, message string) *Error {
+	return &Error{
+		Code:    code,
+		Message: message,
+	}
+}
