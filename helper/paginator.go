@@ -12,10 +12,10 @@ type Paginator struct {
 	Request     *http.Request
 	PerPageNums int
 	MaxPages    int
-	nums      int64
-	pageRange []int
-	pageNums  int
-	page      int
+	nums        int64
+	pageRange   []int
+	pageNums    int
+	page        int
 }
 
 func (p *Paginator) PageNums() int {

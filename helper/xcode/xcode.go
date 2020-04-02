@@ -44,14 +44,12 @@ func MakeYearDaysRand(sum int) string {
 	return strs
 }
 
-func GetRand() int{
+func GetRand() int {
 	rand.Seed(time.Now().UnixNano())
 	//rand.Seed(pow)
 	num := rand.Intn(30000)
 	return num
 }
-
-
 
 //年中的第几天
 func GetDaysInYearByThisYear() int {
@@ -69,5 +67,5 @@ func GetDaysInYearByThisYear() int {
 	} else {
 		total = total + d
 	}
-	return total;
+	return total
 }
