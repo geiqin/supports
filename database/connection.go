@@ -7,7 +7,6 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"log"
-	"net/url"
 )
 
 // define our own host type
@@ -63,7 +62,7 @@ func setDbPrefix(prefix string) {
 
 func CreateMysqlDB(cfg *DbConfig) *gorm.DB {
 	serverAddr := cfg.Host + ":" + cfg.Port
-	timezone := "'Asia/Shanghai'"
+	//timezone := "'Asia/Shanghai'"
 	//connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4", cfg.Username, cfg.Password, serverAddr, cfg.Database)
 	//parseTime=True&    /utf8mb4
 	connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local&time_zone='Asia/Shanghai'", cfg.Username, cfg.Password, serverAddr, cfg.Database)
