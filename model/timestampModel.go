@@ -1,15 +1,12 @@
 package model
 
 import (
-	"database/sql/driver"
-	"fmt"
-	"strconv"
 	"time"
 )
 
 type Timestamps struct {
-	CreatedAt MyTime `db:"created_at" json:"created_at"`
-	UpdatedAt MyTime `db:"updated_at" json:"updated_at"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 type AllTimestamps struct {
@@ -18,6 +15,7 @@ type AllTimestamps struct {
 	DeletedAt *time.Time `sql:"index"`
 }
 
+/*
 type MyTime struct {
 	time.Time
 }
@@ -44,3 +42,6 @@ func (t *MyTime) Scan(v interface{}) error {
 	}
 	return fmt.Errorf("can not convert %v to timestamp", v)
 }
+
+
+*/
