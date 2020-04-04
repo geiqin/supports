@@ -63,8 +63,8 @@ func CreateMysqlDB(cfg *DbConfig) *gorm.DB {
 	//serverAddr := cfg.Host + ":" + cfg.Port
 	//timezone := "'Asia/Shanghai'"
 	//connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4", cfg.Username, cfg.Password, serverAddr, cfg.Database)
-	//parseTime=True&    /utf8mb4    Local&time_zone=
-	connString := "root:123456@tcp(120.24.243.92:3306)/" + cfg.Database + "?charset=utf8&parseTime=True&loc=Asia%2FShanghai"
+	//parseTime=True&    /utf8mb4    Local&time_zone=    Asia%2FShanghai
+	connString := "root:123456@tcp(120.24.243.92:3306)/" + cfg.Database + "?charset=utf8&parseTime=True&loc=CST"
 	//connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local&time_zone=%27Asia%2FShanghai%27", cfg.Username, cfg.Password, serverAddr, cfg.Database)
 	//connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&loc=Local", cfg.Username, cfg.Password, serverAddr, cfg.Database)
 	db, err := gorm.Open("mysql", connString)
