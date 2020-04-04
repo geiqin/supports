@@ -1,16 +1,12 @@
 package model
 
 import (
-	"database/sql/driver"
-	"errors"
-	"fmt"
-	"strings"
 	"time"
 )
 
 type Timestamps struct {
-	CreatedAt MyTime `gorm:"type:timestamp"`
-	UpdatedAt MyTime `gorm:"type:timestamp"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 type AllTimestamps struct {
@@ -19,6 +15,7 @@ type AllTimestamps struct {
 	DeletedAt *time.Time `sql:"index"`
 }
 
+/*
 //MyTime 自定义时间
 type MyTime time.Time
 
@@ -61,3 +58,5 @@ func (t *MyTime) Scan(v interface{}) error {
 func (t *MyTime) String() string {
 	return fmt.Sprintf("hhh:%s", time.Time(*t).String())
 }
+
+*/
