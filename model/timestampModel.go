@@ -1,12 +1,16 @@
 package model
 
 import (
+	"database/sql/driver"
+	"errors"
+	"fmt"
+	"strings"
 	"time"
 )
 
 type Timestamps struct {
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	CreatedAt MyTime `gorm:"type:timestamp"`
+	UpdatedAt MyTime `gorm:"type:timestamp"`
 }
 
 type AllTimestamps struct {
@@ -15,33 +19,45 @@ type AllTimestamps struct {
 	DeletedAt *time.Time `sql:"index"`
 }
 
-/*
-type MyTime struct {
-	time.Time
+//MyTime 自定义时间
+type MyTime time.Time
+
+func (t *MyTime) UnmarshalJSON(data []byte) error {
+	if string(data) == "null" {
+		return nil
+	}
+	var err error
+	//前端接收的时间字符串
+	str := string(data)
+	//去除接收的str收尾多余的"
+	timeStr := strings.Trim(str, "\"")
+	t1, err := time.Parse("2006-01-02 15:04:05", timeStr)
+	*t = MyTime(t1)
+	return err
 }
 
 func (t MyTime) MarshalJSON() ([]byte, error) {
-	//格式化秒
-	seconds := t.Unix()
-	return []byte(strconv.FormatInt(seconds, 10)), nil
+	formatted := fmt.Sprintf("\"%v\"", time.Time(t).Format("2006-01-02 15:04:05"))
+	return []byte(formatted), nil
 }
 
 func (t MyTime) Value() (driver.Value, error) {
-	var zeroTime time.Time
-	if t.Time.UnixNano() == zeroTime.UnixNano() {
-		return nil, nil
-	}
-	return t.Time, nil
+	// MyTime 转换成 time.Time 类型
+	tTime := time.Time(t)
+	return tTime.Format("2006-01-02 15:04:05"), nil
 }
 
 func (t *MyTime) Scan(v interface{}) error {
-	value, ok := v.(time.Time)
-	if ok {
-		*t = MyTime{Time: value}
-		return nil
+	switch vt := v.(type) {
+	case time.Time:
+		// 字符串转成 time.Time 类型
+		*t = MyTime(vt)
+	default:
+		return errors.New("类型处理错误")
 	}
-	return fmt.Errorf("can not convert %v to timestamp", v)
+	return nil
 }
 
-
-*/
+func (t *MyTime) String() string {
+	return fmt.Sprintf("hhh:%s", time.Time(*t).String())
+}
