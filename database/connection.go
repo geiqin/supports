@@ -65,7 +65,7 @@ func CreateMysqlDB(cfg *DbConfig) *gorm.DB {
 	//timezone := "'Asia/Shanghai'"
 	//connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4", cfg.Username, cfg.Password, serverAddr, cfg.Database)
 	//parseTime=True&    /utf8mb4
-	connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local&time_zone='Asia%2FShanghai'", cfg.Username, cfg.Password, serverAddr, cfg.Database)
+	connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local&time_zone=%27Asia%2FShanghai%27", cfg.Username, cfg.Password, serverAddr, cfg.Database)
 	//connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&loc=Local", cfg.Username, cfg.Password, serverAddr, cfg.Database)
 	db, err := gorm.Open("mysql", connString)
 	if err != nil {
