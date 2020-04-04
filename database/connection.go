@@ -1,7 +1,6 @@
 package database
 
 import (
-	"fmt"
 	"github.com/geiqin/supports/config"
 	"github.com/geiqin/supports/helper"
 	"github.com/jinzhu/gorm"
@@ -61,11 +60,12 @@ func setDbPrefix(prefix string) {
 }
 
 func CreateMysqlDB(cfg *DbConfig) *gorm.DB {
-	serverAddr := cfg.Host + ":" + cfg.Port
+	//serverAddr := cfg.Host + ":" + cfg.Port
 	//timezone := "'Asia/Shanghai'"
 	//connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4", cfg.Username, cfg.Password, serverAddr, cfg.Database)
 	//parseTime=True&    /utf8mb4
-	connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local&time_zone=%27Asia%2FShanghai%27", cfg.Username, cfg.Password, serverAddr, cfg.Database)
+	connString := "root:123456@tcp(120.24.243.92:3306)/" + cfg.Database + "?charset=utf8&parseTime=True&loc=Local&time_zone=%27Asia%2FShanghai%27"
+	//connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local&time_zone=%27Asia%2FShanghai%27", cfg.Username, cfg.Password, serverAddr, cfg.Database)
 	//connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&loc=Local", cfg.Username, cfg.Password, serverAddr, cfg.Database)
 	db, err := gorm.Open("mysql", connString)
 	if err != nil {
