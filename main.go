@@ -9,7 +9,7 @@ import (
 	"github.com/geiqin/supports/helper"
 	"github.com/geiqin/supports/session"
 	"github.com/jinzhu/gorm"
-	"github.com/micro/go-micro/metadata"
+	"github.com/micro/go-micro/v2/metadata"
 	log "log"
 )
 
