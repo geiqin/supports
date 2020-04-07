@@ -21,7 +21,6 @@ func Register() {
 
 //消息发布
 func Publish(eventName EventType, storeId int64, data string, headers ...map[string]string) error {
-	log.Println("start broker")
 	heads := make(map[string]string)
 	if storeId > 0 {
 		heads["store_id"] = helper.Int64ToString(storeId)
