@@ -17,9 +17,9 @@ func StoreContextByString(storeId string) context.Context {
 	return ctx
 }
 
-func StoreContextByBroker(broker broker.Event) context.Context {
-	if broker != nil && broker.Message().Header != nil {
-		storeId := broker.Message().Header["store_id"]
+func StoreContextByBroker(p broker.Event) context.Context {
+	if p != nil && p.Message().Header != nil {
+		storeId := p.Message().Header["store_id"]
 		if storeId != "" {
 			sid := helper.StringToInt64(storeId)
 			if sid > 0 {
