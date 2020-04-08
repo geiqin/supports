@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/geiqin/supports/config"
 	"github.com/geiqin/supports/helper"
-	"github.com/micro/go-micro/v2/metadata"
+	"github.com/micro/go-micro/metadata"
 	"log"
 )
 

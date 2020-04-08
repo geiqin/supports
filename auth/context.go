@@ -3,7 +3,7 @@ package auth
 import (
 	"context"
 	"github.com/geiqin/supports/helper"
-	"github.com/micro/go-micro/v2/broker"
+	"github.com/micro/go-micro/broker"
 	"net/http"
 )
 
