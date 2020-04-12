@@ -9,15 +9,15 @@ var storeConf *xconfig.TokenInfo
 var userConf *xconfig.TokenInfo
 
 func Load() {
-	storeCfg := xconfig.GetTokenCfg("store")
-	if storeCfg == nil {
+	storeConf = xconfig.GetTokenCfg("store")
+	if storeConf == nil {
 		log.Println("load store_token config failed")
 		return
 	}
 	log.Println("load store_token config succeed")
 
-	userCfg := xconfig.GetTokenCfg("user")
-	if userCfg == nil {
+	userConf = xconfig.GetTokenCfg("user")
+	if userConf == nil {
 		log.Println("load user_token config failed")
 		return
 	}
