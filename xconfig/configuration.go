@@ -4,7 +4,7 @@ import "os"
 
 var conf *Configuration
 
-//注册配置
+//初始化客户端配置
 func Register(names ...string) {
 	defNames := []string{"app", "database"}
 	if names != nil {
