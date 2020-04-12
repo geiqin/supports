@@ -13,6 +13,20 @@ type ConfigManger struct {
 	names   []string
 }
 
+func (b *ConfigManger) makeApp(read reader.Value) error {
+	var info *AppInfo
+	read.Scan(&info)
+	b.conf.AppInfo = info
+	return nil
+}
+
+func (b *ConfigManger) makeAppSession(read reader.Value) error {
+	var info *SessionInfo
+	read.Scan(&info)
+	b.conf.SessionInfo = info
+	return nil
+}
+
 func (b *ConfigManger) makeToken(read reader.Value) error {
 	var list map[string]*TokenInfo
 	read.Scan(&list)
@@ -51,6 +65,10 @@ func (b *ConfigManger) Load() *Configuration {
 			return nil
 		}
 		switch app {
+		case "app":
+			//b.makeDatabase(config.Get("app"))
+			b.makeAppSession(config.Get("session"))
+			break
 		case "database":
 			b.makeDatabase(config.Get("connections"))
 			b.makeRedis(config.Get("redis"))

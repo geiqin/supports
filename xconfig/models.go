@@ -1,7 +1,8 @@
 package xconfig
 
 type Configuration struct {
-	AppInfo        AppInfo                    `json:"app_info"`
+	AppInfo        *AppInfo                   `json:"app_info"`
+	SessionInfo    *SessionInfo               `json:"session_info"`
 	DatabaseList   map[string]*DatabaseInfo   `json:"database_list"`
 	RedisList      map[string]*RedisInfo      `json:"redis_list"`
 	FileSystemList map[string]*FileSystemInfo `json:"file_system_list"`
@@ -60,4 +61,14 @@ type MailInfo struct {
 }
 
 type AppInfo struct {
+}
+
+type SessionInfo struct {
+	Driver      string     `json:"driver"`
+	CookieName  string     `json:"cookie_name"`
+	MaxLifeTime int64      `json:"max_life_time"`
+	Provider    *RedisInfo `json:"provider"`
+}
+
+type CacheInfo struct {
 }

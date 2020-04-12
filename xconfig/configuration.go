@@ -40,6 +40,12 @@ func GetStoreDatabaseCfg(name string, storeFlag string) *DatabaseInfo {
 	return &cfg
 }
 
+//获取Redis配置
+func GetRedisCfg(name string) *RedisInfo {
+	cfg := conf.RedisList[name]
+	return cfg
+}
+
 //获取缓存配置
 func GetCacheCfg() *RedisInfo {
 	cfg := conf.RedisList["cache"]
@@ -47,9 +53,11 @@ func GetCacheCfg() *RedisInfo {
 }
 
 //获取会话配置
-func GetSessionCfg() *RedisInfo {
-	cfg := conf.RedisList["session"]
-	return cfg
+func GetSessionCfg() *SessionInfo {
+	if conf.SessionInfo != nil {
+		conf.SessionInfo.Provider = GetRedisCfg("session")
+	}
+	return conf.SessionInfo
 }
 
 //获取令牌配置

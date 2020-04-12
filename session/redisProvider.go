@@ -20,33 +20,23 @@ type FromRedis struct {
 	//list     *list.List               //用来做 gc
 }
 
-/*
-type RedisType struct {
-	Host     string
-	Port     int
-	Database int
-}
-
-*/
-
-func LoadRedis(cnf *SessionConfig) {
-	cfg := xconfig.GetSessionCfg()
-	if cfg == nil {
+func LoadRedis(cfg *xconfig.SessionInfo) {
+	if cfg == nil || cfg.Provider == nil {
 		log.Println("load redis of session config failed")
 		return
 	}
 	log.Println("load redis of session config succeed")
 
-	server := fmt.Sprintf("%s:%d", cfg.Host, cfg.Port)
+	server := fmt.Sprintf("%s:%d", cfg.Provider.Host, cfg.Provider.Port)
 
 	var client = redis.NewClient(&redis.Options{
 		Addr:     server,
-		Password: "",           // no password set
-		DB:       cfg.Database, // use default DB
+		Password: "",                    // no password set
+		DB:       cfg.Provider.Database, // use default DB
 	})
 	pder = &FromRedis{
 		Driver: client,
-		TTL:    cnf.MaxLifeTime,
+		TTL:    cfg.MaxLifeTime,
 		//lock:   sync.Mutex,
 	}
 
@@ -57,9 +47,7 @@ func (this *FromRedis) SessionInit(sid string) (Session, error) {
 	this.lock.Lock()
 	defer this.lock.Unlock()
 	v := make(map[string]interface{}, 0)
-	newsess := &SessionStore{sid: sid, LastAccessedTime: time.Now(), value: v}
-	//element := this.list.PushBack(newsess)
-	//this.sessions[sid] = element
+	newSess := &SessionStore{sid: sid, LastAccessedTime: time.Now(), value: v}
 
 	var h = this.Driver
 	var bytes []byte
@@ -75,7 +63,7 @@ func (this *FromRedis) SessionInit(sid string) (Session, error) {
 
 	bytes, _ = json.Marshal(v)
 	h.Set(sid, string(bytes), time.Duration(this.TTL)*time.Second)
-	return newsess, nil
+	return newSess, nil
 }
 
 func (this *FromRedis) SessionRead(sid string) (Session, error) {
