@@ -6,7 +6,7 @@ var conf *Configuration
 
 //注册配置
 func Register(names ...string) {
-	defNames := []string{"database"}
+	defNames := []string{"app", "database"}
 	if names != nil {
 		defNames = append(defNames, names...)
 	}
