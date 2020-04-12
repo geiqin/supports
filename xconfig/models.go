@@ -1,14 +1,14 @@
 package xconfig
 
 type Configuration struct {
-	AppInfo        AppInfo
-	DatabaseList   map[string]*DatabaseInfo
-	RedisList      map[string]*RedisInfo
-	FileSystemList map[string]*FileSystemInfo
-	TokenList      map[string]*TokenInfo
-	ProviderList   map[string]*ProviderInfo
-	SmsList        map[string]*SmsInfo
-	MailList       map[string]*MailInfo
+	AppInfo        AppInfo                    `json:"app_info"`
+	DatabaseList   map[string]*DatabaseInfo   `json:"database_list"`
+	RedisList      map[string]*RedisInfo      `json:"redis_list"`
+	FileSystemList map[string]*FileSystemInfo `json:"file_system_list"`
+	TokenList      map[string]*TokenInfo      `json:"token_list"`
+	PaymentList    map[string]*PaymentInfo    `json:"payment_list"`
+	SmsList        map[string]*SmsInfo        `json:"sms_list"`
+	MailList       map[string]*MailInfo       `json:"mail_list"`
 }
 
 type DatabaseInfo struct {
@@ -28,7 +28,7 @@ type RedisInfo struct {
 	Database int    `json:"database"`
 }
 
-type ProviderInfo struct {
+type PaymentInfo struct {
 	AppId     string `json:"app_id"`
 	AppSecret string `json:"app_secret"`
 	MchId     string `json:"mch_id"`
