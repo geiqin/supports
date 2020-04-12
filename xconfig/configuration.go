@@ -71,3 +71,9 @@ func GetTokenCfg(name string) *TokenInfo {
 	cfg := conf.TokenList[name]
 	return cfg
 }
+
+//获取微信支付配置
+func GetWeixinPayCfg() *WeixinPayInfo {
+	cfg := conf.WeixinPayInfo
+	return cfg
+}

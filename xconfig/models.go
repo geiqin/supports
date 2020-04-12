@@ -10,6 +10,7 @@ type Configuration struct {
 	PaymentList    map[string]*PaymentInfo    `json:"payment_list"`
 	SmsList        map[string]*SmsInfo        `json:"sms_list"`
 	MailList       map[string]*MailInfo       `json:"mail_list"`
+	WeixinPayInfo  *WeixinPayInfo             `json:"weixin_pay_info"`
 }
 
 type DatabaseInfo struct {
@@ -63,6 +64,9 @@ type MailInfo struct {
 type AppInfo struct {
 }
 
+type CacheInfo struct {
+}
+
 type SessionInfo struct {
 	Driver      string     `json:"driver"`
 	CookieName  string     `json:"cookie_name"`
@@ -70,5 +74,10 @@ type SessionInfo struct {
 	Provider    *RedisInfo `json:"provider"`
 }
 
-type CacheInfo struct {
+type WeixinPayInfo struct {
+	NotifyUrl    string `json:"notify_url"`
+	QinAppId     string `json:"qin_app_id"`
+	QinAppSecret string `json:"qin_app_secret"`
+	QinMchId     string `json:"qin_mch_id"`
+	QinMd5Key    string `json:"qin_md5_key"`
 }

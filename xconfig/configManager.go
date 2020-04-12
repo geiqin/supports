@@ -41,6 +41,13 @@ func (b *ConfigManger) makeRedis(read reader.Value) error {
 	return nil
 }
 
+func (b *ConfigManger) makeWeixinPay(read reader.Value) error {
+	var info *WeixinPayInfo
+	read.Scan(&info)
+	b.conf.WeixinPayInfo = info
+	return nil
+}
+
 func (b *ConfigManger) makFilesystem(read reader.Value) error {
 	var list map[string]*FileSystemInfo
 	read.Scan(&list)
@@ -78,6 +85,9 @@ func (b *ConfigManger) Load() *Configuration {
 			break
 		case "token":
 			b.makeToken(config.Get("tokens"))
+			break
+		case "payment":
+			b.makeWeixinPay(config.Get("providers", "weixin"))
 			break
 		}
 	}
