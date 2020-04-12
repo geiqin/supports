@@ -1,5 +1,8 @@
 package config
 
+//import "github.com/micro/go-micro/v2/config"
+
+/*
 import (
 	"github.com/micro/go-micro/v2/config"
 	"io/ioutil"
@@ -81,3 +84,5 @@ func LoadConfList(dirname string) map[string]string {
 	}
 	return fileList
 }
+
+*/

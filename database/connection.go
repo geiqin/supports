@@ -1,13 +1,13 @@
 package database
 
 import (
-	"github.com/geiqin/supports/config"
-	"github.com/geiqin/supports/helper"
+	"github.com/geiqin/supports/xconfig"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"log"
 )
 
+/*
 // define our own host type
 type DbConfig struct {
 	Driver   string `json:"drviver"`
@@ -19,26 +19,27 @@ type DbConfig struct {
 	Prefix   string `json:"prefix"`
 	Charset  string `json:"charset"`
 }
+*/
 
-var db *gorm.DB
+//var db *gorm.DB
 
 //var dbConfigs map[string] DbConfig
-var dbConfig *DbConfig
-
+//var dbConfig *xconfig.DatabaseInfo
+/*
 func Load(flag string) {
-	dbConfig = &DbConfig{}
-	connCfg := config.GetConfig("database", "connections", flag)
-
-	if connCfg == nil {
+	//dbConfig = &DbConfig{}
+	//connCfg := config.GetConfig("database", "connections", flag)
+	dbConfig = xconfig.GetDatabaseCfg(flag)
+	if dbConfig == nil {
 		log.Println("load database config failed")
 		return
 	}
 
-	helper.MapToStruct(connCfg, dbConfig)
-	db = CreateMysqlDB(dbConfig)
+	//helper.MapToStruct(connCfg, dbConfig)
+	db := CreateMysqlDB(dbConfig)
 	log.Println("load database config succeed")
 	if dbConfig.Prefix != "" {
-		setDbPrefix(dbConfig.Prefix)
+		setDbPrefix(db, dbConfig.Prefix)
 	}
 }
 
@@ -49,17 +50,19 @@ func GetDatabase() *gorm.DB {
 	return db
 }
 
+
+*/
 /**
 设置默认表名前缀
 */
-func setDbPrefix(prefix string) {
-
+func setDbPrefix(db *gorm.DB, prefix string) *gorm.DB {
 	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
 		return prefix + defaultTableName
 	}
+	return db
 }
 
-func CreateMysqlDB(cfg *DbConfig) *gorm.DB {
+func CreateMysqlDB(cfg *xconfig.DatabaseInfo) *gorm.DB {
 	serverAddr := cfg.Host + ":" + cfg.Port
 	//timezone := "'Asia/Shanghai'"
 	//connString := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4", cfg.Username, cfg.Password, serverAddr, cfg.Database)
@@ -71,12 +74,20 @@ func CreateMysqlDB(cfg *DbConfig) *gorm.DB {
 	if err != nil {
 		log.Println("mysql database connection failed")
 	}
+
+	if cfg.Prefix != "" {
+		setDbPrefix(db, cfg.Prefix)
+	}
+
 	return db
 }
 
-func GetDbCfg(dbName ...string) *DbConfig {
+/*
+func GetDbCfg(dbName ...string) *xconfig.DatabaseInfo {
 	if dbName != nil {
 		dbConfig.Database = dbName[0]
 	}
 	return dbConfig
 }
+*
+*/

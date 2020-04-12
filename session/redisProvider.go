@@ -3,8 +3,8 @@ package session
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/geiqin/supports/config"
 	"github.com/geiqin/supports/helper"
+	"github.com/geiqin/supports/xconfig"
 	"github.com/go-redis/redis"
 	"log"
 	"sync"
@@ -20,27 +20,29 @@ type FromRedis struct {
 	//list     *list.List               //用来做 gc
 }
 
+/*
 type RedisType struct {
 	Host     string
 	Port     int
 	Database int
 }
 
+*/
+
 func LoadRedis(cnf *SessionConfig) {
-	redisCfg := config.GetConfig("database", "redis", "session")
-	if redisCfg == nil {
+	cfg := xconfig.GetSessionCfg()
+	if cfg == nil {
 		log.Println("load redis of session config failed")
 		return
 	}
 	log.Println("load redis of session config succeed")
-	rd := &RedisType{}
-	helper.MapToStruct(redisCfg, rd)
-	server := fmt.Sprintf("%s:%d", rd.Host, rd.Port)
+
+	server := fmt.Sprintf("%s:%d", cfg.Host, cfg.Port)
 
 	var client = redis.NewClient(&redis.Options{
 		Addr:     server,
-		Password: "",          // no password set
-		DB:       rd.Database, // use default DB
+		Password: "",           // no password set
+		DB:       cfg.Database, // use default DB
 	})
 	pder = &FromRedis{
 		Driver: client,

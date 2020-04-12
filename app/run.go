@@ -3,8 +3,6 @@ package app
 import (
 	"github.com/geiqin/supports/auth"
 	"github.com/geiqin/supports/cache"
-	"github.com/geiqin/supports/config"
-	"github.com/geiqin/supports/database"
 	"github.com/geiqin/supports/session"
 	"log"
 )
@@ -36,14 +34,10 @@ func Run(flag string, private bool, option ...Option) {
 	}
 	opt.Flag = flag
 	opt.Private = private
-	if opt.ConfigMode == "" || opt.ConfigPath == "" {
-		opt.ConfigPath = "./configs"
-	}
 	appOption = opt
-	config.Load(opt.ConfigPath)
 	session.Load()
 	cache.Load()
-	database.Load(opt.Flag)
+	//database.Load(opt.Flag)
 	auth.Load()
 }
 

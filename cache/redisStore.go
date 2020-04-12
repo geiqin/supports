@@ -2,6 +2,7 @@ package cache
 
 import (
 	"fmt"
+	"github.com/geiqin/supports/xconfig"
 	"github.com/go-redis/redis"
 	"time"
 )
@@ -12,7 +13,7 @@ type RedisStore struct {
 	Driver *redis.Client
 }
 
-func LoadRedis(cfg *CacheConfig) {
+func LoadRedis(cfg *xconfig.RedisInfo) {
 	serverAddr := fmt.Sprintf("%s:%d", cfg.Host, cfg.Port)
 	opts := &redis.Options{
 		Addr:        serverAddr,       // Redis地址

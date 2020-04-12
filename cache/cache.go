@@ -1,8 +1,7 @@
 package cache
 
 import (
-	"github.com/geiqin/supports/config"
-	"github.com/geiqin/supports/helper"
+	"github.com/geiqin/supports/xconfig"
 	"log"
 	"sync"
 	"time"
@@ -10,7 +9,6 @@ import (
 
 var cache Cache
 var once sync.Once
-
 
 type Cache interface {
 	HashSet(key string, value interface{}, duration time.Duration) error
@@ -20,34 +18,25 @@ type Cache interface {
 	Has(key string) bool
 	Increment(key string, step ...int64) int64
 	Decrement(key string, step ...int64) int64
-	Remember(key string,duration time.Duration,fn func(args ...interface{}) string)
+	Remember(key string, duration time.Duration, fn func(args ...interface{}) string)
 	Delete(key string)
 }
 
-
-type CacheConfig struct {
-	Host string `json:"host"`
-	Password string `json:"password"`
-	Port int  `json:"port"`
-	Database int `json:"database"`
-}
-
-func Load()  {
-	myConf :=&CacheConfig{}
-	c :=config.GetConfig("database","redis","cache")
-	if c ==nil{
+func Load() {
+	cfg := xconfig.GetCacheCfg()
+	if cfg == nil {
 		log.Println("load cache config failed")
+		return
 	}
-	helper.MapToStruct(c,myConf)
 	log.Println("load cache config succeed")
-	LoadRedis(myConf)
+	LoadRedis(cfg)
 }
 
-func GetCache()  Cache {
+func GetCache() Cache {
 	return redisStore
 }
 
-func Register( provider Cache) {
+func Register(provider Cache) {
 	if provider == nil {
 		panic("session: Register provide is nil")
 	}
@@ -63,4 +52,4 @@ func Register(name string, provider Cache) {
 	cache = provider
 }
 
- */
+*/
