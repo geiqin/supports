@@ -41,10 +41,17 @@ func (b *ConfigManger) makeRedis(read reader.Value) error {
 	return nil
 }
 
-func (b *ConfigManger) makeWeixinPay(read reader.Value) error {
-	var info *WeixinPayInfo
+func (b *ConfigManger) makeWxPay(read reader.Value) error {
+	var info *WxPayInfo
 	read.Scan(&info)
-	b.conf.WeixinPayInfo = info
+	b.conf.WxPayInfo = info
+	return nil
+}
+
+func (b *ConfigManger) makeAliPay(read reader.Value) error {
+	var info *AliPayInfo
+	read.Scan(&info)
+	b.conf.AliPayInfo = info
 	return nil
 }
 
@@ -87,7 +94,8 @@ func (b *ConfigManger) Load() *Configuration {
 			b.makeToken(config.Get("tokens"))
 			break
 		case "payment":
-			b.makeWeixinPay(config.Get("providers", "weixin"))
+			b.makeWxPay(config.Get("providers", "weixin"))
+			b.makeAliPay(config.Get("providers", "alipay"))
 			break
 		}
 	}

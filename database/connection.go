@@ -36,13 +36,3 @@ func CreateMysqlDB(cfg *xconfig.DatabaseInfo) *gorm.DB {
 
 	return db
 }
-
-/*
-func GetDbCfg(dbName ...string) *xconfig.DatabaseInfo {
-	if dbName != nil {
-		dbConfig.Database = dbName[0]
-	}
-	return dbConfig
-}
-*
-*/
