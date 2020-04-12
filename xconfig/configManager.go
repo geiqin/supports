@@ -1,6 +1,7 @@
 package xconfig
 
 import (
+	"github.com/geiqin/supports/helper"
 	"github.com/micro/go-micro/v2/config"
 	"github.com/micro/go-micro/v2/config/reader"
 	grpcConfig "github.com/micro/go-plugins/config/source/grpc/v2"
@@ -81,6 +82,8 @@ func (b *ConfigManger) Load() *Configuration {
 			break
 		}
 	}
+	log.Println("address:", b.address)
+	log.Println("conf:", helper.JsonEncode(b.conf))
 	return b.conf
 }
 
