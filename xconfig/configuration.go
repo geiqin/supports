@@ -31,6 +31,12 @@ func GetDatabaseCfg(name string) *DatabaseInfo {
 	return cfg
 }
 
+//获取文件储存配置
+func GetFilesystemCfg(name string) *FileSystemInfo {
+	cfg := conf.FileSystemList[name]
+	return cfg
+}
+
 //获取店铺数据库配置
 func GetStoreDatabaseCfg(name string, storeFlag string) *DatabaseInfo {
 	cfg := *conf.DatabaseList[name]
