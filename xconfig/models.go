@@ -5,7 +5,7 @@ type Configuration struct {
 	DatabaseList   map[string]*DatabaseInfo
 	RedisList      map[string]*RedisInfo
 	FileSystemList map[string]*FileSystemInfo
-	AuthList       map[string]*AuthInfo
+	TokenList      map[string]*TokenInfo
 	ProviderList   map[string]*ProviderInfo
 	SmsList        map[string]*SmsInfo
 	MailList       map[string]*MailInfo
@@ -44,7 +44,7 @@ type FileSystemInfo struct {
 	Transport string `json:"transport"`
 }
 
-type AuthInfo struct {
+type TokenInfo struct {
 	Issuer     string `json:"issuer"`
 	Audience   string `json:"audience"`
 	PrivateKey string `json:"private_key"`

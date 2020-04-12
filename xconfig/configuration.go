@@ -52,8 +52,8 @@ func GetSessionCfg() *RedisInfo {
 	return cfg
 }
 
-//获取授权配置
-func GetAuthCfg(name string) *AuthInfo {
-	cfg := conf.AuthList[name]
+//获取令牌配置
+func GetTokenCfg(name string) *TokenInfo {
+	cfg := conf.TokenList[name]
 	return cfg
 }

@@ -5,18 +5,18 @@ import (
 	"log"
 )
 
-var storeConf *xconfig.AuthInfo
-var userConf *xconfig.AuthInfo
+var storeConf *xconfig.TokenInfo
+var userConf *xconfig.TokenInfo
 
 func Load() {
-	storeCfg := xconfig.GetAuthCfg("store")
+	storeCfg := xconfig.GetTokenCfg("store")
 	if storeCfg == nil {
 		log.Println("load store_token config failed")
 		return
 	}
 	log.Println("load store_token config succeed")
 
-	userCfg := xconfig.GetAuthCfg("user")
+	userCfg := xconfig.GetTokenCfg("user")
 	if userCfg == nil {
 		log.Println("load user_token config failed")
 		return

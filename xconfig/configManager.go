@@ -13,10 +13,10 @@ type ConfigManger struct {
 	names   []string
 }
 
-func (b *ConfigManger) makeAuth(read reader.Value) error {
-	var list map[string]*AuthInfo
+func (b *ConfigManger) makeToken(read reader.Value) error {
+	var list map[string]*TokenInfo
 	read.Scan(&list)
-	b.conf.AuthList = list
+	b.conf.TokenList = list
 	return nil
 }
 
@@ -58,8 +58,8 @@ func (b *ConfigManger) Load() *Configuration {
 		case "filesystem":
 			b.makFilesystem(config.Get("clouds"))
 			break
-		case "auth":
-			b.makFilesystem(config.Get("providers"))
+		case "token":
+			b.makeToken(config.Get("tokens"))
 			break
 		}
 	}
