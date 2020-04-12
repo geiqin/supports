@@ -12,20 +12,19 @@ type UserAble interface {
 	Encode(user *LoginUser) (string, error)
 }
 
-
 // 自定义的 metadata，在加密后作为 JWT 的第二部分返回给客户端
 type UserClaims struct {
-	User *LoginUser
+	User  *LoginUser
 	Limit *AccessLimit
 	// 使用标准的 payload
 	jwt.StandardClaims
 }
 
-type UserToken struct {}
+type UserToken struct{}
 
-func (srv *UserToken) CheckConf () error  {
-	if(userConf ==nil){
-		err:=errors.New("未配置授权信息")
+func (srv *UserToken) CheckConf() error {
+	if userConf == nil {
+		err := errors.New("未配置授权信息")
 		log.Println(err.Error())
 		return err
 	}
@@ -46,12 +45,12 @@ func (srv *UserToken) Decode(tokenStr string) (*UserClaims, error) {
 }
 
 // 将 User 用户信息加密为 JWT 字符串
-func (srv *UserToken) Encode(user *LoginUser,limit *AccessLimit) (string, error) {
-	err :=srv.CheckConf()
-	if err !=nil{
-		return "",err
+func (srv *UserToken) Encode(user *LoginUser, limit *AccessLimit) (string, error) {
+	err := srv.CheckConf()
+	if err != nil {
+		return "", err
 	}
-	expireTime :=xtime.GetAfterDay(userConf.ExpireTime,xtime.DayType).Unix()
+	expireTime := xtime.GetAfterDay(userConf.ExpireTime, xtime.DayType).Unix()
 	claims := UserClaims{
 		user,
 		limit,

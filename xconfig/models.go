@@ -48,7 +48,7 @@ type FileSystemInfo struct {
 type TokenInfo struct {
 	Issuer     string `json:"issuer"`
 	Audience   string `json:"audience"`
-	PrivateKey string `json:"private_key"`
+	PrivateKey []byte `json:"private_key"`
 	ExpireTime int    `json:"expire_time"`
 }
 
