@@ -3,7 +3,6 @@ package session
 import (
 	"context"
 	"fmt"
-	"github.com/geiqin/supports/helper"
 	"github.com/geiqin/supports/xconfig"
 	"github.com/micro/go-micro/v2/metadata"
 	"log"
@@ -17,7 +16,6 @@ func Load() {
 		log.Println("load session config failed")
 	}
 	log.Println("load session config succeed")
-	log.Println("session_cfg:", helper.JsonEncode(cnf))
 	LoadRedis(cnf)
 	newManager(cnf)
 }
