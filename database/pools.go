@@ -11,7 +11,7 @@ var poolIndex []string
 
 //数据库访问池子
 func DbPools(cfg *xconfig.DatabaseInfo, max ...int) *gorm.DB {
-	maxLen := 10
+	maxLen := 50
 	if max != nil {
 		maxLen = max[0]
 	}
