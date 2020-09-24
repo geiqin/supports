@@ -22,13 +22,15 @@ func DbPools(cfg *xconfig.DatabaseInfo, max ...int) *gorm.DB {
 	db, ok := pools[cfg.Database]
 	if !ok {
 		db = CreateMysqlDB(cfg)
-		pools[cfg.Database] = db
-		poolIndex = append(poolIndex, cfg.Database)
+		if db != nil {
+			pools[cfg.Database] = db
+			poolIndex = append(poolIndex, cfg.Database)
+		}
 	}
 	if len(poolIndex) > maxLen {
 		log.Println("db pool is fulled :", len(poolIndex))
 	}
-	if db.Error != nil {
+	if db == nil || db.Error != nil {
 		log.Println("database is closed :", cfg.Database)
 		log.Println("database is error :", db.Error.Error())
 	}

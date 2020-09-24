@@ -32,6 +32,7 @@ func CreateMysqlDB(cfg *xconfig.DatabaseInfo) *gorm.DB {
 	db, err := gorm.Open("mysql", connString)
 	if err != nil {
 		log.Println("mysql database connection failed :", cfg.Database)
+		return nil
 	}
 
 	if cfg.Prefix != "" {
