@@ -28,8 +28,9 @@ func DbPools(cfg *xconfig.DatabaseInfo, max ...int) *gorm.DB {
 	if len(poolIndex) > maxLen {
 		log.Println("db pool is fulled :", len(poolIndex))
 	}
-	if db == nil {
+	if db.Error != nil {
 		log.Println("database is closed :", cfg.Database)
+		log.Println("database is error :", db.Error.Error())
 	}
 
 	return db
